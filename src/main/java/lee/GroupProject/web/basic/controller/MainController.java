@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainController {
 	@GetMapping("/")
 	public String main(){
-		return "includes/mainContent";
+		return "includes/IndexContent";
 	}
 
 
