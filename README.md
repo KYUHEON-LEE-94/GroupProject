@@ -12,6 +12,7 @@ git config --global commit.template .gitmessage.txt
 3.아래의 명령어로 커밋하세요
 git commit
 ![이미지](https://user-images.githubusercontent.com/101496219/206132909-44df1208-ea95-4376-a4e5-4c3b0f97996b.png)
+> 위의 이미지대로 템플릿이 화면에 표시되었다면 아래의 코드를 참조해서 내용을 수정하면 됩니다.
 
 **i: insert키로 수정기능
 ** q: 수정한내용 저장X, 탈출
