@@ -13,7 +13,7 @@ Table of contents
 4. Hero Carousel
 5. Accordion
 6. Shop
-7. Product
+7. ProductType
 8. Carousel Hero
 9. Carousel Brand
 10. Services
@@ -81,7 +81,7 @@ body, ul, li, p, a, label, input, div {
 .templatemo-accordion a:hover { color: #333d4a;}
 /* Shop */
 .shop-top-menu a:hover { color: #69bb7e !important;}
-/* Product */
+/* ProductType */
 .product-wap { box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.10);}
 .product-wap .product-color-dot.color-dot-red { background:#f71515;}
 .product-wap .product-color-dot.color-dot-blue { background:#6db4fe;}
