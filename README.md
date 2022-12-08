@@ -1,4 +1,28 @@
 # GroupProject
+설명: 맨투맨과 후드티와 같은 미니멀 스타일의 쇼핑몰입니다.
+카테고리에 따른 자유롭고 편안한 웹 쇼핑이 가능하도록 하는 것이 저희의 목표입니다.
+
+## 프로젝트 팀
+✔ 이규헌(panpan68@naver.com) [팀장]  
+✔ 홍성배(qnazl0925@naver.com) [팀원]  
+✔ 임지연(skechc@naver.com) [팀원] 
+
+## 프로젝트 목표
++ 맨투맨, 후드티를 전문적으로 파는 쇼핑몰 웹사이트
++ Spring boot를 베이스로 웹 사이트 구현
+
+## 사용스킬
+프론트엔드: 부트스트랩  
+백엔드: Spring boot, JPA, Mybatis, Thymleaf, lombok
+
+## 스토리보드
+https://ovenapp.io/view/R9YpEp61aE2kV6khxtQVu1BsoZC5Z8Fl/
+
+## 데이터 모델링
+https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
+
+## 기능 명세서
+[기능 명세서보기](https://docs.google.com/spreadsheets/d/1dZZ9WDroy_Z0zwEdAzWC1t3ZqnuLQOsLEObZysph8Hc/edit?usp=sharing)
 
 # commit 템플릿 설정하는 방법
 ### 이미 템플릿 파일은 폴더에 추가되어 있어서 아래의 절차대로만 하시면 됩니다.
