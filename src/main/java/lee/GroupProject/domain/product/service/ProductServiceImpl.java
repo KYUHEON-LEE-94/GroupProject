@@ -32,6 +32,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> findProducts(String searchValue, Pageable pageable) {
-		return jpaProductRepository.findAllByProductNameOrProductSizeContaining(searchValue, searchValue, pageable);
+		return jpaProductRepository.findAllBySexOrStatus(searchValue, "true", pageable);
 	}
 }

@@ -30,17 +30,19 @@ public class ShopController {
 
 	// 검색 및 페이징 처리 + list 목록 출력
 	@GetMapping
-	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "ProductNum", direction = Sort.Direction.ASC) Pageable pageable, @RequestParam(required = false, defaultValue = "") String search, Model model) {
+	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false, defaultValue = "") String search, Model model) {
 		//th:object 설정을 위한 Model.
 		Product product = new Product();
 		model.addAttribute("product", product);
 
 
+		log.info("서치: {}",search);
 		Page<Product> page = service.findProducts(search, pageable);
 
-		long totalElements = page.getTotalElements();
 		List<Product> productList = page.getContent();
-		log.info("리스트{}",productList);
+		log.info("리스트: {}",productList);
+
+		long totalElements = page.getTotalElements();
 		int requestPage = page.getPageable().getPageNumber() + 1;
 		int totalPage = page.getTotalPages();
 		int startPage = Math.max(1, requestPage - 4);
@@ -48,6 +50,7 @@ public class ShopController {
 		boolean hasPrevious = page.hasPrevious();
 		boolean hasNext = page.hasNext();
 
+		model.addAttribute("search", search);
 		model.addAttribute("totalElements", totalElements);
 		model.addAttribute("productList", productList);
 		model.addAttribute("requestPage", requestPage);
