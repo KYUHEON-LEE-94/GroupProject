@@ -32,6 +32,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> findProducts(String searchValue, Pageable pageable) {
-		return jpaProductRepository.findAllBySexOrStatus(searchValue, "true", pageable);
+		Integer searchValueInt;
+		try {
+			searchValueInt = Integer.parseInt(searchValue);
+		}catch (NumberFormatException n){
+			return jpaProductRepository.findAllBySexOrStatusOrTypeNum(searchValue, "true",null, pageable);
+		}
+		return jpaProductRepository.findAllBySexOrStatusOrTypeNum(searchValue, "true",searchValueInt, pageable);
 	}
 }

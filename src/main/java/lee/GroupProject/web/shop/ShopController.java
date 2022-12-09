@@ -35,12 +35,10 @@ public class ShopController {
 		Product product = new Product();
 		model.addAttribute("product", product);
 
-
-		log.info("서치: {}",search);
 		Page<Product> page = service.findProducts(search, pageable);
 
 		List<Product> productList = page.getContent();
-		log.info("리스트: {}",productList);
+
 
 		long totalElements = page.getTotalElements();
 		int requestPage = page.getPageable().getPageNumber() + 1;
@@ -50,7 +48,6 @@ public class ShopController {
 		boolean hasPrevious = page.hasPrevious();
 		boolean hasNext = page.hasNext();
 
-		model.addAttribute("search", search);
 		model.addAttribute("totalElements", totalElements);
 		model.addAttribute("productList", productList);
 		model.addAttribute("requestPage", requestPage);

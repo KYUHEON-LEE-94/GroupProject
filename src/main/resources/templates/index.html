@@ -53,7 +53,7 @@
         <div class="container d-flex justify-content-between align-items-center">
 
             <a class="navbar-brand text-success logo h1 align-self-center" href="/">
-                Zay
+                LHL
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,7 @@
                             <a class="nav-link" href="/about" th:text="#{web.About}">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/shop" th:text="#{web.Shop}">Shop</a>
+                            <a class="nav-link" th:href="@{/shop(search='U')}" th:text="#{web.Shop}">Shop</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/contact" th:text="#{web.Contact}">Contact</a>

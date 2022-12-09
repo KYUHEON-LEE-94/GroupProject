@@ -18,7 +18,7 @@ public class Product {
 	@Id
 	@Column(name="product_num")
 	private String productNum;
-	private String typeNum;
+	private Integer typeNum;
 	private String productPhoto;
 	private Integer productPrice;
 	private String productName;
