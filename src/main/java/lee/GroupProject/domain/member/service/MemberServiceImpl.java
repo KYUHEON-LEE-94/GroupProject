@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import lee.GroupProject.domain.member.entity.Member;
 import lee.GroupProject.domain.member.repository.JpaMemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
