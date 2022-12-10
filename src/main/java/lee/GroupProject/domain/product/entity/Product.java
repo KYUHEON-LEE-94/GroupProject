@@ -26,6 +26,7 @@ public class Product {
 	private String sex;
 	private String productSize;
 	private String	status;
+	private String description;
 
 }
 

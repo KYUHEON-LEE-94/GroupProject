@@ -46,7 +46,7 @@ https://templatemo.com/tm-559-zay-shop
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" th:src="@{/assets/img/productIMG/}+${findProduct.productPhoto}" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" th:src="@{/assets/img/productIMG/}+${findProduct.productPhoto}" th:alt="${findProduct.productPhoto}" id="product-detail">
                     </div>
                     <div class="row">
                         <!--Start Controls-->
@@ -67,17 +67,17 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="row">
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_01.jpg" alt="Product Image 1">
+                                                <img class="card-img img-fluid" th:src="@{/assets/img/productIMG/}+${findProduct.productPhoto}" th:alt="${findProduct.productPhoto}">
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_02.jpg" alt="Product Image 2">
+                                                <img class="card-img img-fluid" th:src="@{/assets/img/productIMG/}+${findProduct.productPhoto}" th:alt="${findProduct.productPhoto}">
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_03.jpg" alt="Product Image 3">
+                                                <img class="card-img img-fluid" th:src="@{/assets/img/productIMG/}+${findProduct.productPhoto}" th:alt="${findProduct.productPhoto}">
                                             </a>
                                         </div>
                                     </div>
@@ -89,44 +89,23 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="row">
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_04.jpg" alt="Product Image 4">
+                                                <img class="card-img img-fluid" src="../assets/img/productIMG/advert.jpg" alt="Product Image 4">
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_05.jpg" alt="Product Image 5">
+                                                <img class="card-img img-fluid" src="../assets/img/productIMG/advert.jpg" alt="Product Image 5">
                                             </a>
                                         </div>
                                         <div class="col-4">
                                             <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_06.jpg" alt="Product Image 6">
+                                                <img class="card-img img-fluid" src="../assets/img/productIMG/advert.jpg" alt="Product Image 6">
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <!--/.Second slide-->
 
-                                <!--Third slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_07.jpg" alt="Product Image 7">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_08.jpg" alt="Product Image 8">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="../assets/img/product_single_09.jpg" alt="Product Image 9">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Third slide-->
                             </div>
                             <!--End Slides-->
                         </div>
@@ -153,7 +132,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-secondary"></i>
-                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                                <span class="list-inline-item text-dark">Rating 4.8</span>
                             </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
@@ -165,29 +144,26 @@ https://templatemo.com/tm-559-zay-shop
                             </ul>
 
                             <h6>Description:</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse. Donec condimentum elementum convallis. Nunc sed orci a diam ultrices aliquet interdum quis nulla.</p>
+                            <p th:text="${findProduct.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua.</p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Avaliable Quantity :</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong style="color: tomato" th:text="${findProduct.productQuantity}">1</strong></p>
+                                    <p class="text-muted"><strong style="color: tomato" th:text="|${findProduct.productQuantity} 개 남음|">1</strong></p>
                                 </li>
                             </ul>
 
                             <h6>Specification:</h6>
                             <ul class="list-unstyled pb-3">
-                                <li>Lorem ipsum dolor sit</li>
-                                <li>Amet, consectetur</li>
-                                <li>Adipiscing elit,set</li>
-                                <li>Duis aute irure</li>
-                                <li>Ut enim ad minim</li>
-                                <li>Dolore magna aliqua</li>
-                                <li>Excepteur sint</li>
+                                <li>- 찬물 세탁 가능합니다.</li>
+                                <li>- 이염의 위험이 있사오니 단독 세탁을 권장 드립니다.</li>
+                                <li>- 배송은 1~3일 이내 수령 가능합니다.</li>
                             </ul>
 
-                            <form action="" method="GET">
+                            <form action="/shop/payment.do" method="GET">
                                 <input type="hidden" name="product-title" value="Activewear">
+                                <input type="hidden" name="productNum" th:value="${findProduct.productNum}">
                                 <div class="row">
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
@@ -217,10 +193,10 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        <button type="submit"  class="btn btn-success btn-lg" name="submit" value="buy" th:text="#{web.shopsingles.buy}">Buy</button>
                                     </div>
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard" th:text="#{web.shopsingles.cart}">Add To Cart</button>
                                     </div>
                                 </div>
                             </form>
