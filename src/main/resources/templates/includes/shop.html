@@ -34,37 +34,39 @@
         <div class="row">
 
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">Categories</h1>
+                <h1 class="h2 pb-4" th:text="#{web.shop.Categories}">Categories</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#" th:text="#{web.shop.Gender}">
                             Gender
                             <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul class="collapse show list-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/shop(search='U')}">Union</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/shop(search='M')}">Men</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/shop(search='W')}">Women</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search='U')}" th:text="#{web.shop.Gender.Union}">Union</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search='M')}" th:text="#{web.shop.Gender.Men}">Men</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search='W')}" th:text="#{web.shop.Gender.Women}">Women</a></li>
                         </ul>
                     </li>
-                    <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                    <li class="pb-3" th:href="@{/shop(searchAll=8000)}">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none"  th:text="#{web.shop.MantoMan }">
                             MantoMan
                             <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/shop(search=1)}">Club</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/shop(search=8001)}">OverFit</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(searchAll=8000)}">All</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8000)}" th:text="#{web.shop.MantoMan.Club}">Club</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8001)}" th:text="#{web.shop.MantoMan.OverFit}">OverFit</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{web.shop.Hood}">
                             Hood
                             <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/shop(search=8000)}">Heavy</a></li>
-<!--                            <li><a class="text-decoration-none" href="#">Sweather</a></li>-->
+                            <li><a class="text-decoration-none" th:href="@{/shop(searchAll=8501)}">All</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8501)}" th:text="#{web.shop.Hood.Heavy}">Heavy</a></li>
+
 <!--                            <li><a class="text-decoration-none" href="#">Sunglass</a></li>-->
                         </ul>
                     </li>
@@ -86,15 +88,15 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-6 pb-4">
-                        <div class="d-flex">
-                            <select class="form-control">
-                                <option>On sale</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
-                            </select>
-                        </div>
-                    </div>
+<!--                    <div class="col-md-6 pb-4">-->
+<!--                        <div class="d-flex">-->
+<!--                            <select class="form-control">-->
+<!--                                <option>On sale</option>-->
+<!--                                <option>A to Z</option>-->
+<!--                                <option>Item</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <div class="row">
 

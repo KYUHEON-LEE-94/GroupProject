@@ -30,12 +30,30 @@ public class ShopController {
 
 	// 검색 및 페이징 처리 + list 목록 출력
 	@GetMapping
-	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false, defaultValue = "") String search, Model model) {
+	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable,
+								@RequestParam(required = false, defaultValue = "") String search,
+								@RequestParam(required = false, defaultValue = "") Integer searchAll,
+								Model model) {
 		//th:object 설정을 위한 Model.
 		Product product = new Product();
 		model.addAttribute("product", product);
 
 		Page<Product> page = service.findProducts(search, pageable);
+
+		if(searchAll != null){
+			if (8000 == searchAll){
+				Integer searchAllFrom = 8000;
+				Integer searAllTo = 8500;
+				page = service.findAllByTypeNumBetween(searchAllFrom,searAllTo, pageable);
+			}else if(8501 == searchAll ){
+				Integer searchAllFrom = 8501;
+				Integer searAllTo = 9000;
+				page = service.findAllByTypeNumBetween(searchAllFrom,searAllTo, pageable);
+			}
+
+		}
+
+
 
 		List<Product> productList = page.getContent();
 

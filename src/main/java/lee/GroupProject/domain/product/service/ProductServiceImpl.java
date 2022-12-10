@@ -40,4 +40,14 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return jpaProductRepository.findAllBySexOrStatusOrTypeNum(searchValue, "true",searchValueInt, pageable);
 	}
+
+	@Override
+	public Page<Product> findAllByTypeNumBetween(Integer searchAllFrom, Integer searchAllTo,Pageable pageable) {
+		try {
+			return jpaProductRepository.findAllByTypeNumBetween(searchAllFrom, searchAllTo, pageable);
+		}catch (NumberFormatException n){
+			return jpaProductRepository.findAllByTypeNumBetween(null, null, pageable);
+		}
+
+	}
 }

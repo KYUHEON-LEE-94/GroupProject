@@ -14,6 +14,8 @@ public interface JpaProductRepository extends JpaRepository<Product, String>{
 
 	Page<Product> findAllBySexOrStatusOrTypeNum(String sex, String status, Integer typeNum, Pageable pageable);
 
+	Page<Product> findAllByTypeNumBetween(Integer From, Integer To, Pageable pageable);
+
 	//제품명으로 제품정보 찾아오기
 
 }

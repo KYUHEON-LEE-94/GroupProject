@@ -15,4 +15,6 @@ public interface ProductService {
 
 	//Paging처리
 	public Page<Product> findProducts(String searchValue, Pageable pageable);
+
+	Page<Product> findAllByTypeNumBetween(Integer searchAllFrom,Integer searchAllTo, Pageable pageable);
 }
