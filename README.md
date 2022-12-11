@@ -19,6 +19,7 @@
 https://ovenapp.io/view/R9YpEp61aE2kV6khxtQVu1BsoZC5Z8Fl/
 
 ## 데이터 모델링
+![KakaoTalk_20221208_181815280](https://user-images.githubusercontent.com/101496219/206895009-c5900170-9f95-4c16-a4a0-2bd3bbcf3faf.jpg)
 https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 
 ## 기능 명세서
