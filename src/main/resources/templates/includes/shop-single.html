@@ -144,7 +144,8 @@ https://templatemo.com/tm-559-zay-shop
                             </ul>
 
                             <h6>Description:</h6>
-                            <p th:text="${findProduct.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod temp incididunt ut labore et dolore magna aliqua.</p>
+                            <p th:if="${findProduct.description == null}">언제든 편하게 입을 수 있고, 쉽게 스타일링이 가능한 것이 저희 LHL wearing의 장점입니다.</p>
+                            <p th:text="${findProduct.description}">설명 </p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Avaliable Quantity :</h6>

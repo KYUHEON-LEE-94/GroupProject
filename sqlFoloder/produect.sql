@@ -29,6 +29,9 @@ VALUES ('BlueHT-UF',8501,'BlueHT.jpg','32000','진한 파란색 후드티','90','U','FRE
 INSERT INTO product (product_num, type_num, product_photo, product_price,product_name,product_quantity, sex, product_size,status)
 VALUES ('Gray2OMM-UF',8001,'Gray2OMM.jpg','32000','밝은 회색의 오버핏 맨투맨','132','U','FREE','TRUE');
 
+INSERT INTO product (product_num, type_num, product_photo, product_price,product_name,product_quantity, sex, product_size,status, description)
+VALUES ('WhiteOMM-UF',8001,'WhiteOMM.jpg','28000','하얏색 오버핏 맨투맨','50','U','FREE','TRUE', '트렌디한 오버핏으로, 착용 시 자연스럽게 스트릿 무드를 연출할 수 있습니다.');
+
 INSERT INTO product (product_num, type_num, product_photo, product_price,product_name,product_quantity, sex, product_size,status)
 VALUES ('YellowMM-UF',8000,'YellowMM.jpg','25000','노란색 맨투맨','0','U','FREE','FALSE');
 
@@ -50,13 +53,29 @@ WHERE sex =  '';
 SELECT *
 FROM PRODUCT;
 
+--컬럼 추가
+ALTER TABLE PRODUCT ADD description VARCHAR2(2000);
+
+--값 변경
+UPDATE PRODUCT SET description = '끈으로 조절가능한 후드와 손을 넣을 수 있는 아늑한 포켓이 특징힙니다.   깔끔한 디자인으로 부담없이 가볍게 착용할 수 있습니다.' 
+WHERE product_num = 'GrayHT-MF';
+
+UPDATE PRODUCT SET description = '겉감의 부드러운 촉감이 특징인 제품입니다.   덤블워싱 공정을 거쳐서 오랜세탁에도 축률이 적습니다.' 
+WHERE product_num = 'GrayMM-UF';
+
+UPDATE PRODUCT SET description = '겉감의 부드러운 촉감이 특징인 제품입니다.   덤블워싱 공정을 거쳐서 오랜세탁에도 축률이 적습니다.' 
+WHERE product_num = 'BlackMM-UF';
+
+UPDATE PRODUCT SET description = '겉감의 부드러운 촉감이 특징인 제품입니다.   덤블워싱 공정을 거쳐서 오랜세탁에도 축률이 적습니다.  밝은 회색을 스타일링하기 편한 제품입니다.' 
+WHERE product_num = 'GrayOMM-WF';
+
 --DROP
 DELETE FROM product
 WHERE product_num ='BlueHT-UF';
 
 --제품 타입 테스트 8000부터 시작(테스트 데이터 1 제외)
 INSERT INTO product_type (type_num, type_name, description)
-VALUES (8000,'클럽 맨투맨','편하게 데일리로 입을 수 있는 맨투맨');
+VALUES (product_type_hood_seq.NEXTVAL,'클럽 맨투맨','편하게 데일리로 입을 수 있는 맨투맨');
 
 INSERT INTO product_type (type_num, type_name, description)
 VALUES (product_type_hood_seq.NEXTVAL ,'헤비 후드티','핏이 매력적인 후드티');
