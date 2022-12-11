@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.time.LocalDateTime;
 
+/**
+ * @author LEE KYUHEON
+ */
 @Entity
 @DynamicInsert
 @RequiredArgsConstructor

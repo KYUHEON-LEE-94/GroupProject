@@ -27,7 +27,7 @@ public class OrderDetail {
 	private Integer deliveryCharge;
 	private Integer totalAmount;
 	private Integer orderQuantity;
-	private Integer paymentEethod;
+	private String paymentMethod;
 	private LocalDateTime orderDate;
 }
 

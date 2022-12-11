@@ -13,6 +13,8 @@ public interface ProductService {
 	
 	public Product findByProductNum(String ProductNum);
 
+
+
 	//Paging처리
 	public Page<Product> findProducts(String searchValue, Pageable pageable);
 

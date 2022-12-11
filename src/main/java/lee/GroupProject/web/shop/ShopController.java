@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-/*
- * 메인 컨트롤러
+/**
+ * Shop Main 컨트롤러
+ * @author LEE KYUHEON
  */
+
 @Slf4j
 @Controller
 @RequestMapping("/shop")
@@ -38,8 +40,14 @@ public class ShopController {
 		Product product = new Product();
 		model.addAttribute("product", product);
 
+		//paging 처리를 위한 service 처리
 		Page<Product> page = service.findProducts(search, pageable);
 
+		//만약 searchALl(모두 검색) 파라미터가 있다면 아래와 같이 처리를 하겠다.
+		/**
+		 * 8000 = 모든 맨투맨
+		 * 8501 = 모든 후드티
+		 */
 		if(searchAll != null){
 			if (8000 == searchAll){
 				Integer searchAllFrom = 8000;
@@ -53,8 +61,7 @@ public class ShopController {
 
 		}
 
-
-
+		//paging 처리를 위한 getContent()
 		List<Product> productList = page.getContent();
 
 

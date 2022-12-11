@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
 		return jpaProductRepository.findByProductNum(ProductNum);
 	}
 
+
 	@Override
 	public Page<Product> findProducts(String searchValue, Pageable pageable) {
 		Integer searchValueInt;
@@ -41,6 +42,14 @@ public class ProductServiceImpl implements ProductService {
 		return jpaProductRepository.findAllBySexOrStatusOrTypeNum(searchValue, "true",searchValueInt, pageable);
 	}
 
+	/**
+	 * 받는 파라미터가 숫자가 아닌 경우를 고려한 try~catch
+	 * SQL BETWEEN 처리를 위한 파라미터 받기
+	 * @param searchAllFrom  : ~부터
+	 * @param searchAllTo : ~까지
+	 * @param pageable
+	 * @return
+	 */
 	@Override
 	public Page<Product> findAllByTypeNumBetween(Integer searchAllFrom, Integer searchAllTo,Pageable pageable) {
 		try {
