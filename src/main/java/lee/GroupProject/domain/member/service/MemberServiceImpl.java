@@ -3,9 +3,8 @@ package lee.GroupProject.domain.member.service;
 import java.util.List;
 import java.util.Optional;
 
-import lee.GroupProject.domain.member.entity.Member;
+import lee.GroupProject.domain.member.entity.Members;
 import lee.GroupProject.domain.member.repository.JpaMemberRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,28 +19,28 @@ public class MemberServiceImpl implements MemberService {
 	private JpaMemberRepository jpaMemberRepository;
 	
 	@Override
-	public String register(Member member) {
-		Member saveMember = jpaMemberRepository.save(member);
+	public String register(Members member) {
+		Members saveMember = jpaMemberRepository.save(member);
 		return saveMember.getMemberId();
 	}
 
 	@Override
-	public Member isMember(String id, String password) {
+	public Members isMember(String id, String password) {
 		return jpaMemberRepository.findByMemberIdAndMemberPw(id, password);
 	}
 
 	@Override
-	public Optional<Member> findMember(String id) {
+	public Optional<Members> findMember(String id) {
 		return jpaMemberRepository.findById(id);
 	}
 
 	@Override
-	public List<Member> findMembers() {
+	public List<Members> findMembers() {
 		return jpaMemberRepository.findAll();
 	}
 
 	@Override
-	public Page<Member> findMembers(String searchValue, Pageable pageable) {
+	public Page<Members> findMembers(String searchValue, Pageable pageable) {
 		return jpaMemberRepository.findAllByMemberIdOrMemberNameContaining(searchValue, searchValue, pageable);
 	}
 

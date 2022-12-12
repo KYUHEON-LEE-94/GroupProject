@@ -1,7 +1,5 @@
 package lee.GroupProject.domain.product.service;
 
-import lee.GroupProject.domain.member.entity.Member;
-import lee.GroupProject.domain.member.repository.JpaMemberRepository;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.repository.JpaProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional

@@ -1,11 +1,13 @@
 package lee.GroupProject.web.payment;
 
+import lee.GroupProject.domain.member.entity.Members;
 import lee.GroupProject.domain.orderDetail.dto.OrderDetailForm;
 import lee.GroupProject.domain.orderDetail.entity.OrderDetail;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.service.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +37,8 @@ public class PaymentController {
     @GetMapping()
     public String doGet(@RequestParam("productNum") String productNum,
                         @RequestParam("product-quanity") Integer quanity,
-                        Model model){
+                        Model model,
+                        HttpServletRequest request){
         OrderDetail orderDetail = new OrderDetail();
         model.addAttribute("orderDetail",orderDetail);
 
@@ -43,6 +48,15 @@ public class PaymentController {
         model.addAttribute("quanity",quanity);
         //총금액 계산해서 model에 보내서 사용
         model.addAttribute("totalPrice",totalPrice);
+
+        HttpSession session = request.getSession();
+        Members member = (Members) session.getAttribute("loginMember");
+        if(session.getAttribute("loginMember") != null){
+            model.addAttribute("member",member);
+        }else{
+            model.addAttribute("memberId",null);
+        }
+
 
 
         return "includes/payment";
