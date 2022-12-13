@@ -15,8 +15,8 @@ import javax.persistence.IdClass;
 @Getter
 @Setter
 @ToString
-@IdClass(OrderLlistID.class)
-public class OrderLlist {
+@IdClass(OrderListID.class)
+public class OrderList {
 	@Id
 	@Column(name="order_num")
 	private String orderNum;

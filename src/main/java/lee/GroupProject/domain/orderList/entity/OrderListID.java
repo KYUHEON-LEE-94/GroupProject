@@ -1,11 +1,7 @@
 package lee.GroupProject.domain.orderList.entity;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -17,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class OrderLlistID implements Serializable {
+public class OrderListID implements Serializable {
 
 	private String orderNum;
 	private String productNum;

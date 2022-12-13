@@ -23,9 +23,7 @@ public class OrderDetailForm {
 	@NotBlank(message = "수령자 이름은 필수입니다.")
 	@Pattern(regexp="[a-zA-Z가-핳]", message = "한글 또는 영어로 입력해주세요")
 	private String recipientName;
-
 	private String orderName;
-
 	@NotBlank(message = "주소는 필수입니다.")
 	@Pattern(regexp="[a-zA-Z가-핳]", message = "한글 또는 영어로 입력해주세요")
 	private String orderAddress;
