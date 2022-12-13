@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class OrderDetailForm {
+	//주문번호는 생성해서 사용할거기 때문에 받아오지 않음
 
-	private String orderNum;
 	private String memberId;
 	@NotBlank(message = "수령자 이름은 필수입니다.")
 	@Pattern(regexp="[a-zA-Z가-핳]", message = "한글 또는 영어로 입력해주세요")
@@ -27,8 +27,7 @@ public class OrderDetailForm {
 	@NotBlank(message = "주소는 필수입니다.")
 	@Pattern(regexp="[a-zA-Z가-핳]", message = "한글 또는 영어로 입력해주세요")
 	private String orderAddress;
-
-	private String orderPhone;
+	private String  orderPhone;
 	private Integer deliveryCharge;
 	private Integer totalAmount;
 	private Integer orderQuantity;
