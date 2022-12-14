@@ -84,7 +84,8 @@
                         </th:block>
 
                         <th:block th:if="${members == null}" >
-                            <input type="text" class="form-control mt-1"  name="memberId" th:value="비회원+${count}" readonly>
+                            <input type="text" class="form-control mt-1" th:value="비회원" readonly>
+                            <input type="hidden" class="form-control mt-1"  name="memberId" th:value="${nonMember.get().memberId}">
                             <label for="orderPhone">연락처</label>
                             <input type="text" class="form-control mt-1"  name="orderPhone">
                         </th:block>

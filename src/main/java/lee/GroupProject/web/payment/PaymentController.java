@@ -1,6 +1,7 @@
 package lee.GroupProject.web.payment;
 
 import lee.GroupProject.domain.member.entity.Members;
+import lee.GroupProject.domain.member.service.MemberServiceImpl;
 import lee.GroupProject.domain.orderDetail.dto.OrderDetailForm;
 import lee.GroupProject.domain.orderDetail.entity.OrderDetail;
 import lee.GroupProject.domain.orderDetail.service.OrderDetailServiceImpl;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 import java.util.UUID;
 
 import static lee.GroupProject.web.common.filter.NonMemberCount.getCount;
@@ -42,7 +44,8 @@ public class PaymentController {
     @Autowired
     private OrderListServiceImpl orderListService;
 
-
+    @Autowired
+    private MemberServiceImpl memberService;
 
     @GetMapping()
     public String doGet(@RequestParam("productNum") String productNum,
@@ -65,8 +68,9 @@ public class PaymentController {
         if(session.getAttribute("loginMember") != null){
             model.addAttribute("members",members);
         }else{
+            Optional<Members> nonMember = memberService.findMember("Nonmember");
             model.addAttribute("member",null);
-            model.addAttribute("count", NonMemberCount.getCount());
+            model.addAttribute("nonMember", nonMember);
         }
 
 
