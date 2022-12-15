@@ -99,4 +99,19 @@ INCREMENT BY 1
 START WITH 8000
 MAXVALUE 8500;
 
-
+    select
+        orderdetai0_.order_num as order_num1_1_,
+        orderdetai0_.delivery_charge as delivery_charge2_1_,
+        orderdetai0_.member_id as member_id3_1_,
+        orderdetai0_.order_address as order_address4_1_,
+        orderdetai0_.order_date as order_date5_1_,
+        orderdetai0_.order_name as order_name6_1_,
+        orderdetai0_.order_phone as order_phone7_1_,
+        orderdetai0_.order_quantity as order_quantity8_1_,
+        orderdetai0_.payment_method as payment_method9_1_,
+        orderdetai0_.recipient_name as recipient_name10_1_,
+        orderdetai0_.total_amount as total_amount11_1_ 
+    from
+        order_detail orderdetai0_ 
+    where
+        orderdetai0_.order_num='51e3489a-d3bf-46e0-9717-9abc258d477e';

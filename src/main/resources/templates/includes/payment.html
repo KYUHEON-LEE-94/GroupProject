@@ -23,14 +23,13 @@
 
 <body>
 
-
     <!-- Modal -->
     <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
+            <form class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
                     <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
                     <button type="submit" class="input-group-text bg-success text-light">
@@ -102,16 +101,18 @@
                                 <input type="text" class="form-control mt-1"  name="orderName" th:value="${members.memberName}" th:errorclass="field-error" readonly>
                                 <label for="recipientName">수령자</label>
                                 <input type="text" class="form-control mt-1"  th:field="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
+                                 <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
                         </th:block>
 
                         <th:block th:if="${members == null}" >
                             <!--/* orderDetail에 입력되어야 할 정보 */-->
                             <input type="text" class="form-control mt-1"  th:field="*{orderName}" placeholder="주문자 입력해주세요" th:errorclass="field-error">
-                            <div class="field-error" th:errors="*{orderName}">주문자 입력 오류</div>
+                            <div class="field-error" th:errors="*{orderName}">수령자 입력 오류</div>
+
                             <label for="recipientName">수령자</label>
                             <input type="text" class="form-control mt-1"  th:field="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
+                            <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
                         </th:block>
-                        <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
                     </div>
                 </div>
 
@@ -120,12 +121,14 @@
                     <!--/* 로그인이 되어있을 경우 */-->
                     <th:block th:if="${members != null}">
                         <input  type="text" class="form-control mt-1"  name="orderAddress" th:value="${members.memberAddress}" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{orderAddress}">수령자 입력 오류</div>
                     </th:block>
                     <!--/* 로그인이 안되어있을 경우 */-->
                     <th:block th:if="${members == null}">
                         <input  type="text" class="form-control mt-1"  th:field="*{orderAddress}" placeholder="주소를 입력해주세요" th:errorclass="field-error">
+                        <div class="field-error" th:errors="*{orderAddress}">수령자 입력 오류</div>
                     </th:block>
-                    <div class="field-error" th:errors="*{orderAddress}">수령자 입력 오류</div>
+
                 </div>
 
                 <div class="row">

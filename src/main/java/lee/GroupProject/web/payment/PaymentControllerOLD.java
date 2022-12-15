@@ -29,8 +29,8 @@ import java.util.UUID;
  */
 @Slf4j
 @Controller
-@RequestMapping("/shop/payment.do")
-public class PaymentController {
+@RequestMapping("none")
+public class PaymentControllerOLD {
     /*비회원 이름 겹치지 않게 하기 위한 구별 숫자*/
     @Autowired
     private ProductServiceImpl service;
@@ -89,12 +89,13 @@ public class PaymentController {
     @PostMapping()
     public String doPost(@Validated @ModelAttribute("orderDetailForm") OrderDetailForm orderDetailForm,
                         @RequestParam("productNum") String productNum,
+                        @PathVariable ("productNum") String productNum2,
                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            log.info("bindingResults 로그: {}", bindingResult);
-            return "includes/payment";
+
+            return "/shop/payment.do{productNum2}";
         }
 
         //OrderDeatil을 DB에 저장
@@ -134,6 +135,7 @@ public class PaymentController {
         redirectAttributes.addAttribute("orderlistProductNum",orderlist.getProductNum());
         return"redirect:/shop/payment/result.do";
     }
+
 
 
 }

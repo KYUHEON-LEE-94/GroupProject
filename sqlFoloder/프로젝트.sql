@@ -19,6 +19,16 @@ CREATE TABLE members (
 ALTER TABLE members ADD CONSTRAINT PK_MEMBERS PRIMARY KEY (
 	member_id
 );
+
+INSERT INTO members (member_id, member_pw, member_name, member_email, phone_num,member_address)
+VALUES ('xmanxman', '111111', '이규헌', 'panpan68@naver.com', '010-2112-4330','서울 특별시 노원구');
+
+INSERT INTO members (member_id, member_pw, member_name, member_email)
+VALUES ('Nonmember', '111111', '비회원', 'None@none');
+
+
+SELECT *
+FROM members;
 ----------------------------------------------------------------------
 
 --contatct 테이블-----------------------------------------------------
@@ -94,12 +104,14 @@ CREATE TABLE order_detail (
 	recipient_name	varchar2(30)	NULL,
 	order_name	varchar2(30)	NULL,
 	order_address	varchar2(255)	NULL,
+    recipient_address varchar2(255) NULL,
 	order_phone	varchar2(30)	NULL,
 	order_date	DATE DEFAULT  SYSDATE,
 	delivery_charge	number	NULL,
 	total_amount	number	NULL,
 	order_quantity	number	NULL,
 	payment_method	varchar2(30)	NULL
+
 );
 --pk
 ALTER TABLE order_detail ADD CONSTRAINT PK_ORDER PRIMARY KEY (
@@ -108,6 +120,7 @@ ALTER TABLE order_detail ADD CONSTRAINT PK_ORDER PRIMARY KEY (
 
 ALTER TABLE order_detail
 RENAME COLUMN order_adress TO order_address;
+
 ---------------------------------------------------------------------------------------------
 
 --주문 목록-----------------------------------------------------------------------------------
@@ -175,6 +188,38 @@ VALUES ('1','클럽 맨투맨','편하게 데일리로 입을 수 있는 맨투맨');
 CREATE SEQUENCE product_type_seq
 START WITH 8000
 INCREMENT BY 1;
+
+SELECT *
+FROM order_list;
+
+SELECT *
+FROM order_detail;
+
+SELECT *
+FROM product;
+
+SELECT *
+FROM members;
+
+DELETE FROM order_detail
+WHERE ORDER_ADDRESS = '노원';
+
+DELETE FROM order_detail
+WHERE MEMBER_ID = 'Nonmember';
+
+DELETE FROM order_list
+WHERE MEMBER_ID = 'Nonmember';
+
+commit;
+
+    select
+        orderlist0_.member_id as member_id1_2_,
+        orderlist0_.order_num as order_num2_2_,
+        orderlist0_.product_num as product_num3_2_ 
+    from
+        order_list orderlist0_ 
+    where
+        orderlist0_.product_num='Gray2OMM-UF';
 
 
 
