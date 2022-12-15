@@ -15,9 +15,13 @@
         width: 50%;
         height: 50%;
     }
+
+    .field-error {
+        color: #ff0000;
+    }
 </style>
 
-<body th:object="${orderDetailForm}">
+<body>
 
 
     <!-- Modal -->
@@ -52,18 +56,18 @@
     <!-- Start Contact -->
     <div class="container py-5">
         <div class="row py-5">
-            <form action="/shop/payment.do" method="post" role="form">
+            <form action="/shop/payment.do" method="post" th:object="${orderDetail}">
                 <div class="row product-info">
                     <div class="form-group col-md-3 mb-3">
                         <img class="card-img" th:src="@{/assets/img/productIMG/}+${product.productPhoto}">
                     </div>
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="form-group col-md-6 mb-3" th:object="${product}">
                         <label for="name">상품명</label>
-                        <input type="text" class="form-control mt-1"  th:field="${product.productName}" readonly>
-                        <input type="hidden" class="form-control mt-1"  th:field="${product.productNum}" >
+                        <input type="text" class="form-control mt-1"  th:field="*{productName}" readonly>
+                        <input type="hidden" class="form-control mt-1"  th:field="*{productNum}" >
 
                         <label for="size">사이즈</label>
-                        <input type="text" class="form-control mt-1"  th:field="${product.productSize}" readonly>
+                        <input type="text" class="form-control mt-1"  th:field="*{productSize}" readonly>
 
                         <label for="sex">성별</label>
                         <th:block th:switch="${product.sex}">
@@ -93,32 +97,34 @@
 
                     <div class="form-group col-md-6 mb-3">
                         <label for="orderName">주문자</label>
-                        <th:block>
-                            <th:block th:if="${members != null}">
-                                <input type="text" class="form-control mt-1"  name="orderName" th:value="${members.memberName}" readonly>
-                                <div class="field-error" th:errors="*{orderName}">주문자 입력 오류</div>
+
+                        <th:block th:if="${members != null}">
+                                <input type="text" class="form-control mt-1"  name="orderName" th:value="${members.memberName}" th:errorclass="field-error" readonly>
                                 <label for="recipientName">수령자</label>
-                                <input   type="text" class="form-control mt-1"  name="recipientName" placeholder="수령자의 이름 입력해주세요">
-                                <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
-                            </th:block>
+                                <input type="text" class="form-control mt-1"  th:field="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
                         </th:block>
 
-                        <th:block>
+                        <th:block th:if="${members == null}" >
                             <!--/* orderDetail에 입력되어야 할 정보 */-->
-                            <input th:if="${members == null}"  type="text" class="form-control mt-1"  name="orderName" placeholder="주문자 입력해주세요">
+                            <input type="text" class="form-control mt-1"  th:field="*{orderName}" placeholder="주문자 입력해주세요" th:errorclass="field-error">
                             <div class="field-error" th:errors="*{orderName}">주문자 입력 오류</div>
                             <label for="recipientName">수령자</label>
-                            <input th:if="${members == null}"  type="text" class="form-control mt-1"  name="recipientName" placeholder="수령자의 이름 입력해주세요">
-                            <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
+                            <input type="text" class="form-control mt-1"  th:field="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
                         </th:block>
+                        <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="orderAddress">수령자 주소</label>
-                    <input th:if="${members != null}" type="text" class="form-control mt-1"  name="orderAddress" th:value="${members.memberAddress}">
-                    <div class="field-error" th:errors="*{orderAddress}">수령자 입력 오류</div>
-                    <input  th:if="${members == null}" type="text" class="form-control mt-1"  name="orderAddress" placeholder="주소를 입력해주세요">
+                    <!--/* 로그인이 되어있을 경우 */-->
+                    <th:block th:if="${members != null}">
+                        <input  type="text" class="form-control mt-1"  name="orderAddress" th:value="${members.memberAddress}" th:errorclass="field-error">
+                    </th:block>
+                    <!--/* 로그인이 안되어있을 경우 */-->
+                    <th:block th:if="${members == null}">
+                        <input  type="text" class="form-control mt-1"  th:field="*{orderAddress}" placeholder="주소를 입력해주세요" th:errorclass="field-error">
+                    </th:block>
                     <div class="field-error" th:errors="*{orderAddress}">수령자 입력 오류</div>
                 </div>
 
@@ -151,11 +157,7 @@
                     </div>
                 </div>
 
-
-
-
-
-
+                <!--/* 구매 확정 버튼 -> paymentResult로 이동*/-->
                 <div class="row">
                     <div class="col text-end mt-2">
                         <button type="submit" class="btn btn-success btn-lg px-3">구매 확정</button>

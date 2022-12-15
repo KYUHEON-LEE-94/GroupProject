@@ -7,6 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * 제품 Bean
+ * @author LEE KYUHEON
+ */
 @Entity
 @DynamicInsert
 @RequiredArgsConstructor

@@ -20,6 +20,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return jpaOrderDetailRepository.save(orderDetail);
 	}
 
+	//orderNum으로 해당하는 OrderDetail찾기
 	@Override
 	public OrderDetail findAllByOrderNum(String orderNum) {
 		return jpaOrderDetailRepository.findAllByOrderNum(orderNum);

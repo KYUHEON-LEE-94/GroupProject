@@ -9,7 +9,6 @@ import lee.GroupProject.domain.orderList.entity.OrderList;
 import lee.GroupProject.domain.orderList.service.OrderListServiceImpl;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.service.ProductServiceImpl;
-import lee.GroupProject.web.common.filter.NonMemberCount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.UUID;
-
-import static lee.GroupProject.web.common.filter.NonMemberCount.getCount;
 
 /**
  * 주문 정보를 받아서 처리하는 Controller
@@ -47,19 +44,28 @@ public class PaymentController {
     @Autowired
     private MemberServiceImpl memberService;
 
+
+    /***
+     *Shop-singles.html의 form에서 넘어온 데이터를 사용합니다.
+     * @param productNum 제품번호
+     * @param quantity  수량
+     * @param request 로그인 여부 확인을 위한 session 획득
+     *
+     */
     @GetMapping()
     public String doGet(@RequestParam("productNum") String productNum,
                         @RequestParam("product-quanity") Integer quantity,
+                        @ModelAttribute("orderDetail") OrderDetail orderDetail,
                         Model model,
                         HttpServletRequest request){
-        OrderDetailForm orderDetailForm = new OrderDetailForm();
-        model.addAttribute("orderDetailForm",orderDetailForm);
 
+        //param으로 전달받은 제품번호를 사용해서 해당하는 Product 객체를 찾아옵니다.
         Product product = service.findByProductNum(productNum);
+        //총 금액 = (제품의 가격 * 수량) + 배달비
         Integer totalPrice = (product.getProductPrice() * quantity) + 2500;
+        //입력된 정보들을 model에 보내줌
         model.addAttribute("product",product);
         model.addAttribute("quantity",quantity);
-        //총금액 계산해서 model에 보내서 사용
         model.addAttribute("totalPrice",totalPrice);
 
         //Session으로 loginMember를 얻어와서, 있으면 members 객체를 전달 / 없으면 null값으로 전달
@@ -68,27 +74,31 @@ public class PaymentController {
         if(session.getAttribute("loginMember") != null){
             model.addAttribute("members",members);
         }else{
+            /**
+             *  비회원용 계정을 DB에 따로 Nonmember라는 ID를 생성해놓았습니다.
+             *  이렇게 하지않으면 PK를 지키기 위해서 비회원이 구매할때마다 새로운 비회원 계정을 생성해야 하기때문에 관리의 용이성을 위해서
+             *  Nonmember라고 하는 하나의 계정을 모든 비회원 계정으로 사용하기로 했습니다.
+             */
             Optional<Members> nonMember = memberService.findMember("Nonmember");
             model.addAttribute("member",null);
             model.addAttribute("nonMember", nonMember);
         }
 
-
-
         return "includes/payment";
     }
-
     @PostMapping()
-    public String doPost( @ModelAttribute("orderDetailForm") OrderDetailForm orderDetailForm,
-            @RequestParam("productNum") String productNum,
-            BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String doPost(@Validated @ModelAttribute("orderDetailForm") OrderDetailForm orderDetailForm,
+                        @RequestParam("productNum") String productNum,
+                        BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes){
 
-//        if (bindingResult.hasErrors()) {
-//            log.info("bindingResults : {}", bindingResult);
-//            return "includes/payment";
-//        }
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResults 로그: {}", bindingResult);
+            return "includes/payment";
+        }
 
-        //무작위 주문번호 생성
+        //OrderDeatil을 DB에 저장
+         //무작위 주문번호 생성
         String uuid = UUID.randomUUID().toString();
 
         OrderDetail orderDetail = new OrderDetail();
@@ -103,17 +113,21 @@ public class PaymentController {
         orderDetail.setOrderQuantity(orderDetailForm.getOrderQuantity());
         orderDetail.setTotalAmount(orderDetailForm.getTotalAmount());
         orderDetail.setOrderPhone(orderDetailForm.getOrderPhone());
-        log.info("orderDetail: {}",orderDetail);
 
-
+        //OrderList DB에 저장
         OrderList orderlist = new OrderList();
         orderlist.setMemberId(orderDetailForm.getMemberId());
         orderlist.setProductNum(productNum);
         orderlist.setOrderNum(orderDetail.getOrderNum());
-        log.info("오더리스트: {}",orderlist);
 
         orderDetailService.register(orderDetail);
         orderListService.register(orderlist);
+
+        //Product의 수량 변경
+        Product findProduct = service.findByProductNum(productNum);
+        findProduct.setProductQuantity(findProduct.getProductQuantity() - orderDetailForm.getOrderQuantity());
+        //DB에 저장
+        service.update(findProduct);
 
         //주문 정상 완료되면 result화면으로 리다이렉트
         redirectAttributes.addAttribute("orderDetailNum",orderlist.getOrderNum());

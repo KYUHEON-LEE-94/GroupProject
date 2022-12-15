@@ -18,6 +18,11 @@ public class ProductServiceImpl implements ProductService {
 	private JpaProductRepository jpaProductRepository;
 
 	@Override
+	public void update(Product product) {
+		jpaProductRepository.save(product);
+	}
+
+	@Override
 	public List<Product> findAll() {
 		return jpaProductRepository.findAll();
 	}
@@ -28,6 +33,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 
+	/***
+	 * Paging 처리를 위한 메서드
+	 * @authore LEE KYUHEON
+	 * @param searchValue
+	 * @param pageable
+	 * @return
+	 */
 	@Override
 	public Page<Product> findProducts(String searchValue, Pageable pageable) {
 		Integer searchValueInt;
@@ -42,6 +54,7 @@ public class ProductServiceImpl implements ProductService {
 	/**
 	 * 받는 파라미터가 숫자가 아닌 경우를 고려한 try~catch
 	 * SQL BETWEEN 처리를 위한 파라미터 받기
+	 * @authore LEE KYUHEON
 	 * @param searchAllFrom  : ~부터
 	 * @param searchAllTo : ~까지
 	 * @param pageable

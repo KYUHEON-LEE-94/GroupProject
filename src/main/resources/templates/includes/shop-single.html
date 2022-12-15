@@ -162,6 +162,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <li>- 배송은 1~3일 이내 수령 가능합니다.</li>
                             </ul>
 
+                            <!--/* 입력이 완료된 정보는 /shop/payment.do로 넘겨줍니다. 민감한 정보는 없기 때문에 Get방식을 선택했습니다.  */-->
                             <form action="/shop/payment.do" method="GET">
                                 <input type="hidden" name="product-title" value="Activewear">
                                 <input type="hidden" name="productNum" th:value="${findProduct.productNum}"e>
