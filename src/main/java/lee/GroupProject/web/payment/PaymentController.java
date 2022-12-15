@@ -134,4 +134,6 @@ public class PaymentController {
         redirectAttributes.addAttribute("orderlistProductNum",orderlist.getProductNum());
         return"redirect:/shop/payment/result.do";
     }
+
+
 }
