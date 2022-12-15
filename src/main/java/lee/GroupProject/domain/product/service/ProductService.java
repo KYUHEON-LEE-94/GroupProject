@@ -1,7 +1,6 @@
 package lee.GroupProject.domain.product.service;
 
 import lee.GroupProject.domain.product.entity.Product;
-import lee.GroupProject.domain.productType.service.ProductTypeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -107,7 +107,7 @@
                         <th:block th:if="${members == null}" >
                             <!--/* orderDetail에 입력되어야 할 정보 */-->
                             <input type="text" class="form-control mt-1"  th:field="*{orderName}" placeholder="주문자 입력해주세요" th:errorclass="field-error">
-                            <div class="field-error" th:errors="*{orderName}">수령자 입력 오류</div>
+                            <div class="field-error" th:errors="*{orderName}">주문자 입력 오류</div>
 
                             <label for="recipientName">수령자</label>
                             <input type="text" class="form-control mt-1"  th:field="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
