@@ -75,7 +75,11 @@ request.getHeader("Referer");로 현재의 주소를 기억하고 있다가 Bind
 
 Thymeleaf에서는 th:if="${param.get('referer') != null}"로 이 페이지가 새롭게 로딩된 페이지(오류가 있어서 새로고침이 되었는가?)인지를 판별할 수 있게 됩니다.
 
+![image](https://user-images.githubusercontent.com/101496219/208081798-1ba16706-7e46-48eb-b213-82d2ef4143d1.png)
+
+
 이와 같은 방법으로 경고문을 사용자에게 성공적으로 보여줄 수 있게 되었습니다.
+
 -----------------------------------------
 
 ### ✔홍성배  
