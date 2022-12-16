@@ -12,7 +12,7 @@ public interface ShoppingBasketService {
 
     public void register(ShoppingBasket shoppingBasket);
 
-    public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateAsc(String memberId);
+    public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateDesc(String memberId);
 
     public void deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(String memberId, String productNum);
 

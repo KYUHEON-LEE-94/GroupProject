@@ -27,8 +27,8 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	}
 
 	@Override
-	public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateAsc(String memberId) {
-		return jpaShoppingBasketRepository.findAllByMemberIdOrderByShoppingDateAsc(memberId);
+	public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateDesc(String memberId) {
+		return jpaShoppingBasketRepository.findAllByMemberIdOrderByShoppingDateDesc(memberId);
 	}
 
 	@Override

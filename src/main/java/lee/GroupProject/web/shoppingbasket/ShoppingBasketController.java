@@ -56,7 +56,6 @@ public class ShoppingBasketController {
             shoppingBasket.setMemberId(nonmember.get().getMemberId());
         }
 
-
         shoppingBasketService.register(shoppingBasket);
 
         return "redirect:/shop/payment.do";
@@ -66,7 +65,7 @@ public class ShoppingBasketController {
 
     @GetMapping
     public String showCart(@RequestParam("memberId") String memberId, Model model){
-        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateAsc(memberId);
+        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(memberId);
         model.addAttribute("list", list);
         return "includes/cart";
 

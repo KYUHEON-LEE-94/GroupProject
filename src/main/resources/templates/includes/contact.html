@@ -2,18 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{/index :: layout(~{::title},~{::body})}">
 
 <head>
-    <title>Zay Shop - Contact</title>
+    <title>LHL Shop - Contact</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
 <body>
@@ -40,7 +33,7 @@ https://templatemo.com/tm-559-zay-shop
     <!-- Start Content Page -->
     <div class="container-fluid bg-light py-5">
         <div class="col-md-6 m-auto text-center">
-            <h1 class="h1">Contact Us</h1>
+            <h1 class="h1">Contact Us</h1>S
             <p>
                 Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 Lorem ipsum dolor sit amet.
@@ -52,7 +45,7 @@ https://templatemo.com/tm-559-zay-shop
     <!-- Start Contact -->
     <div class="container py-5">
         <div class="row py-5">
-            <form class="col-md-9 m-auto" action="/request/form" method="post" role="form" th:object="${Contact}>
+            <form class="col-md-9 m-auto" action="/request/form" method="post" role="form" th:object="${contact}">
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
                         <label for="name">Name</label>

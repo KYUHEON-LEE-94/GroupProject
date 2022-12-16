@@ -16,11 +16,11 @@ public class OrderDetailForm {
 	//주문번호는 생성해서 사용할거기 때문에 받아오지 않음
 
 	private String memberId;
-
+	private String productNum;
 	@NotBlank(message = "수령자 이름은 필수입니다.")
 	private String recipientName;
 
-	@NotBlank(message = "수령자 이름은 필수입니다.")
+	@NotBlank(message = "주문자 이름은 필수입니다.")
 	private String orderName;
 
 	@NotEmpty(message = "주소는 필수입니다.")

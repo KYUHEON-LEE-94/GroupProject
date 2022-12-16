@@ -16,13 +16,16 @@ public class ContactController {
     @Autowired
     private ContactServiceImpl contactService;
 
-    @GetMapping
+    @GetMapping()
     public String doGet(Model model){
+        Contact contact = new Contact();
+        model.addAttribute("contact",contact);
+
         return "includes/contact";
     }
 
     /* 입력받은 값 저장 후 리다이렉트 */
-    @PostMapping
+    @PostMapping()
     public String ContactForm(@ModelAttribute("Contact") Contact contact, Model model){
         contactService.addContact(contact);
         return "redirect:/request/form";

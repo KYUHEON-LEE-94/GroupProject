@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface JpaShoppingBasketRepository extends JpaRepository<ShoppingBasket, ShoppingBasketID>{
 
-    public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateAsc(String MemberID);
+    public List<ShoppingBasket> findAllByMemberIdOrderByShoppingDateDesc(String MemberID);
 
     public void deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(String memberId, String productNum);
 

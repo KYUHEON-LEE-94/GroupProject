@@ -59,23 +59,21 @@ public class PaymentController {
 
     @GetMapping()
     public String doGet(Model model,
-                        HttpServletRequest request){
+                        HttpServletRequest request,
+                        @ModelAttribute("orderDetail") OrderDetail orderDetail){
 
-        //th:object 전달
-        OrderDetail orderDetail = new OrderDetail();
-        model.addAttribute("orderDetail",orderDetail);
 
         //Session으로 loginMember를 얻어와서, 있으면 members 객체를 전달 / 없으면 null값으로 전달
         HttpSession session = request.getSession();
         Members members = (Members) session.getAttribute("loginMember");
 
-        //카트에 저장된 제일 최신정보 하나를 불러온다.
-            //회원가입일 경우에는 회원가입 아이디로, 비회원일 경우에는 비회원 아이디로 찾아온다.
+        //카트에 저장된 제일 최신날짜의 정보 하나를 불러온다.
+            //로그인한 경우에는 로그인된 아이디로, 비회원일 경우에는 비회원 공유 아이디로 찾아온다.
 
         List<ShoppingBasket> cart;
         if(session.getAttribute("loginMember") != null){
             model.addAttribute("members",members);
-            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateAsc(members.getMemberId());
+            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
         }else{
             /**
              *  비회원용 계정을 DB에 따로 Nonmember라는 ID를 생성해놓았습니다.
@@ -83,19 +81,19 @@ public class PaymentController {
              *  Nonmember라고 하는 하나의 계정을 모든 비회원 계정으로 사용하기로 했습니다.
              */
             Optional<Members> nonMember = memberService.findMember("Nonmember");
-            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateAsc(nonMember.get().getMemberId());
+            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(nonMember.get().getMemberId());
             model.addAttribute("member",null);
             model.addAttribute("nonMember", nonMember);
         }
 
-        //찾아온 카드에 있는 제품번호로 해당 제품의 정보를 찾아온다.
+        //찾아온 카트에 있는 제품번호로 해당 제품의 정보를 찾아온다.
         Product product = service.findByProductNum(cart.get(0).getProductNum());
+        model.addAttribute("product",product);
 
 
         //총 금액 = (제품의 가격 * 수량) + 배달비
         Integer totalPrice = (product.getProductPrice() * (cart.get(0).getShoppingQuantity())) + 2500;
         //입력된 정보들을 model에 보내줌
-        model.addAttribute("product",product);
         model.addAttribute("quantity",cart.get(0).getShoppingQuantity());
         model.addAttribute("totalPrice",totalPrice);
 
@@ -105,14 +103,13 @@ public class PaymentController {
         return "includes/payment";
     }
     @PostMapping()
-    public String doPost(@Validated @ModelAttribute("orderDetailForm") OrderDetailForm orderDetailForm,
-                        @RequestParam("productNum") String productNum,
-                        BindingResult bindingResult,
+    public String doPost(@Validated @ModelAttribute("orderDetail") OrderDetailForm orderDetail,
+                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResults : {}", bindingResult);
-            return "includes/payment";
+            return "redirect:/includes/payment";
         }
 
 
@@ -120,42 +117,42 @@ public class PaymentController {
          //무작위 주문번호 생성
         String uuid = UUID.randomUUID().toString();
 
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrderAddress(orderDetailForm.getOrderAddress());
-        orderDetail.setOrderNum(uuid);
-        orderDetail.setOrderName(orderDetailForm.getOrderName());
-        orderDetail.setOrderPhone(orderDetailForm.getOrderPhone());
-        orderDetail.setDeliveryCharge(orderDetailForm.getDeliveryCharge());
-        orderDetail.setMemberId(orderDetailForm.getMemberId());
-        orderDetail.setRecipientName(orderDetailForm.getRecipientName());
-        orderDetail.setPaymentMethod(orderDetailForm.getPaymentMethod());
-        orderDetail.setOrderQuantity(orderDetailForm.getOrderQuantity());
-        orderDetail.setTotalAmount(orderDetailForm.getTotalAmount());
-        orderDetail.setOrderPhone(orderDetailForm.getOrderPhone());
+        OrderDetail registerorderDetail = new OrderDetail();
+        registerorderDetail.setOrderAddress(orderDetail.getOrderAddress());
+        registerorderDetail.setOrderNum(uuid);
+        registerorderDetail.setOrderName(orderDetail.getOrderName());
+        registerorderDetail.setOrderPhone(orderDetail.getOrderPhone());
+        registerorderDetail.setDeliveryCharge(orderDetail.getDeliveryCharge());
+        registerorderDetail.setMemberId(orderDetail.getMemberId());
+        registerorderDetail.setRecipientName(orderDetail.getRecipientName());
+        registerorderDetail.setPaymentMethod(orderDetail.getPaymentMethod());
+        registerorderDetail.setOrderQuantity(orderDetail.getOrderQuantity());
+        registerorderDetail.setTotalAmount(orderDetail.getTotalAmount());
+        registerorderDetail.setOrderPhone(orderDetail.getOrderPhone());
 
         //OrderList DB에 저장
         OrderList orderlist = new OrderList();
-        orderlist.setMemberId(orderDetailForm.getMemberId());
-        orderlist.setProductNum(productNum);
-        orderlist.setOrderNum(orderDetail.getOrderNum());
+        orderlist.setMemberId(orderDetail.getMemberId());
+        orderlist.setProductNum(orderDetail.getProductNum());
+        orderlist.setOrderNum(registerorderDetail.getOrderNum());
 
-        orderDetailService.register(orderDetail);
+        orderDetailService.register(registerorderDetail);
         orderListService.register(orderlist);
 
 
         //Product의 수량 변경
-        Product findProduct = service.findByProductNum(productNum);
-        findProduct.setProductQuantity(findProduct.getProductQuantity() - orderDetailForm.getOrderQuantity());
+        Product findProduct = service.findByProductNum(orderDetail.getProductNum());
+        findProduct.setProductQuantity(findProduct.getProductQuantity() - orderDetail.getOrderQuantity());
         //DB에 저장
         service.update(findProduct);
 
         //주문완료된건 장바구니 리스트에서 제거
-
+        shoppingBasketService.deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(orderDetail.getMemberId(),orderDetail.getProductNum());
 
         //주문 정상 완료되면 result화면으로 리다이렉트
         redirectAttributes.addAttribute("orderDetailNum",orderlist.getOrderNum());
         redirectAttributes.addAttribute("orderlistProductNum",orderlist.getProductNum());
-        return"redirect:/shop/payment/result.do";
+        return "redirect:/shop/payment/result.do";
     }
 
 
