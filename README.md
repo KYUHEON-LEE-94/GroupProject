@@ -30,11 +30,20 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 1. 유효성 검사 코드 작성
 spring boot 코드  
 ```java
-        if (bindingResult.hasErrors()) {
+//          각 FieldError들을 받아서 쿼리 스트링으로 기억해서, 부분적으로 발생하는 부분에 대해서만 경고안내를 보여줄 수 있음
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error: errors) {
+            //한군데라도 에러가 발생하면 띄울 전체 경고문구
+                redirectAttributes.addAttribute("someError","someError");
+                //각 부분의 경고문구
+                redirectAttributes.addAttribute(error.getField().toString(),error.getField().toString());
+            }
+
+            //이전 페이지 주소 기억해서 해당 페이지로 redirect하고 쿼리 스트링으로 기억
             String referer = request.getHeader("Referer");
-            redirectAttributes.addAttribute("referer",referer);
+
             return "redirect:"+ referer;
-        } 
+        }
 ```
 html 코드  
 ```html
@@ -69,11 +78,11 @@ html 코드
 
 request.getHeader("Referer");로 현재의 주소를 기억하고 있다가 Bindingresult에 Error가 담기면 이전 페이지로 리다이렉트하는 방법을 사용했습니다.
 
-이와 동시에 **redirectAttributes.addAttribute("referer",referer);** 해당 주소도 같이 쿼리 스트링에 붙여서 보내줍니다.
+이와 동시에 **redirectAttributes.addAttribute(error.getField().toString(),error.getField().toString());** 발생하는 FieldError와 그내용을 쿼리 스트링으로 함께 보내줍니다.
 
 이렇게 하면 새롭게 로딩된 페이지의 쿼리문에는 제가 원했던 쿼리문들을 전부 그대로 유지하면서 그와 동시에 모든 정보를 그대로 저장해둔채로 사용자에게 다시 보여줄 수 있게 되었습니다.  
 
-Thymeleaf에서는 th:if="${param.get('referer') != null}"로 이 페이지가 새롭게 로딩된 페이지(오류가 있어서 새로고침이 되었는가?)인지를 판별할 수 있게 됩니다.
+Thymeleaf에서는 th:if="${param.get('recipientName') != null}로 이 페이지가 새롭게 로딩된 페이지(오류가 있어서 새로고침이 되었는가?)인지를 판별할 수 있게 됩니다.
 
 ![image](https://user-images.githubusercontent.com/101496219/208081798-1ba16706-7e46-48eb-b213-82d2ef4143d1.png)
 
