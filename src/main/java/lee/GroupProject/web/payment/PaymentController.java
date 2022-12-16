@@ -60,6 +60,8 @@ public class PaymentController {
     @GetMapping()
     public String doGet(Model model,
                         HttpServletRequest request,
+                        @RequestParam(required = false, defaultValue = "") String productNum,
+                        @RequestParam(required = false, defaultValue = "") Integer productQuantity,
                         @ModelAttribute("orderDetail") OrderDetail orderDetail){
 
 
@@ -73,28 +75,26 @@ public class PaymentController {
         List<ShoppingBasket> cart;
         if(session.getAttribute("loginMember") != null){
             model.addAttribute("members",members);
-            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
         }else{
             /**
              *  비회원용 계정을 DB에 따로 Nonmember라는 ID를 생성해놓았습니다.
              *  이렇게 하지않으면 PK를 지키기 위해서 비회원이 구매할때마다 새로운 비회원 계정을 생성해야 하기때문에 관리의 용이성을 위해서
              *  Nonmember라고 하는 하나의 계정을 모든 비회원 계정으로 사용하기로 했습니다.
              */
-            Optional<Members> nonMember = memberService.findMember("Nonmember");
-            cart = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(nonMember.get().getMemberId());
+            Optional<Members> FindnonMember = memberService.findMember("Nonmember");
             model.addAttribute("member",null);
-            model.addAttribute("nonMember", nonMember);
+            model.addAttribute("nonMemberId", FindnonMember.get().getMemberId());
         }
 
         //찾아온 카트에 있는 제품번호로 해당 제품의 정보를 찾아온다.
-        Product product = service.findByProductNum(cart.get(0).getProductNum());
+        Product product = service.findByProductNum(productNum);
         model.addAttribute("product",product);
 
 
         //총 금액 = (제품의 가격 * 수량) + 배달비
-        Integer totalPrice = (product.getProductPrice() * (cart.get(0).getShoppingQuantity())) + 2500;
+        Integer totalPrice = (product.getProductPrice() * productQuantity) + 2500;
         //입력된 정보들을 model에 보내줌
-        model.addAttribute("quantity",cart.get(0).getShoppingQuantity());
+        model.addAttribute("quantity",productQuantity);
         model.addAttribute("totalPrice",totalPrice);
 
 
@@ -105,11 +105,14 @@ public class PaymentController {
     @PostMapping()
     public String doPost(@Validated @ModelAttribute("orderDetail") OrderDetailForm orderDetail,
                          BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes){
+                         RedirectAttributes redirectAttributes,
+                         HttpServletRequest request,Model model){
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResults : {}", bindingResult);
-            return "redirect:/includes/payment";
+            String referer = request.getHeader("Referer");
+            redirectAttributes.addAttribute("referer",referer);
+            return "redirect:"+ referer;
         }
 
 

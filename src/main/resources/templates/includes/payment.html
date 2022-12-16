@@ -54,28 +54,31 @@
 
     <!-- Start Contact -->
     <div class="container py-5">
-        <div class="row py-5">
+
+
             <form action="/shop/payment.do" method="post" th:object="${orderDetail}">
                 <div class="row product-info">
-                    <div class="form-group col-md-3 mb-3">
-                        <img class="card-img" th:src="@{/assets/img/productIMG/} + ${product.productPhoto}">
-                    </div>
-                    <div class="form-group col-md-6 mb-3" th:object="${product}">
-                        <label for="name">상품명</label>
-                        <input type="text" class="form-control mt-1"  th:field="*{productName}" readonly>
-                        <input type="hidden" class="form-control mt-1"  th:field="*{productNum}" >
+                    <div class="row py-5">
+                        <div class="form-group col-md-3 mb-3">
+                            <img class="card-img" th:src="@{/assets/img/productIMG/} + ${product.productPhoto}">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="name">상품명</label>
+                            <input type="text" class="form-control mt-1"  th:field="${product.productName}" readonly>
+                            <input type="hidden" class="form-control mt-1"  th:field="${product.productNum}" >
 
-                        <label for="size">사이즈</label>
-                        <input type="text" class="form-control mt-1"  th:field="*{productSize}" readonly>
+                            <label for="size">사이즈</label>
+                            <input type="text" class="form-control mt-1"  th:field="${product.productSize}" readonly>
 
-                        <label for="sex">성별</label>
-                        <th:block th:switch="${product.sex}">
-                            <input th:case="${'U'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
-                            <input th:case="${'M'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
-                            <input th:case="${'W'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
-                        </th:block>
+                            <label for="sex">성별</label>
+                            <th:block th:switch="${product.sex}">
+                                <input th:case="${'U'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                                <input th:case="${'M'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                                <input th:case="${'W'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                            </th:block>
+                        </div>
                     </div>
-                </div>
+                    <h3 style="color: red; text-align: center; margin-bottom: 30px" th:if="${param.get('referer') != null}" th:text="|입력정보를 다시한번 확인해주세요!|"></h3>
 
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
@@ -88,7 +91,7 @@
 
                         <th:block th:if="${members == null}" >
                             <input type="text" class="form-control mt-1" th:value="비회원" readonly>
-                            <input type="hidden" class="form-control mt-1" th:name="memberId" th:value="${nonMember.get().memberId}">
+                            <input type="hidden" class="form-control mt-1" th:name="memberId" th:value="${nonMemberId}">
                             <label for="orderPhone">연락처</label>
                             <input type="text" class="form-control mt-1"  th:name="orderPhone">
                         </th:block>
@@ -98,29 +101,27 @@
                         <label for="orderName">주문자</label>
 
                         <th:block th:if="${members != null}">
-                                <input type="text" class="form-control mt-1"  th:name="orderName" th:value="${members.memberName}" th:errorclass="field-error" readonly>
+                                <input type="text" class="form-control mt-1"  th:name="orderName" th:value="${members.memberName}" readonly>
 
                                 <label for="recipientName">수령자</label>
                             <div>
-                                <input type="text" class="form-control mt-1"  th:name="*{recipientName}" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
-                                <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
+                                <input type="text" class="form-control mt-1"  th:name="*{recipientName}" placeholder="수령자의 이름 입력해주세요">
+
                             </div>
 
                         </th:block>
-
                         <th:block th:if="${members == null}" >
                             <!--/* orderDetail에 입력되어야 할 정보 */-->
                             <div>
-                                <input type="text" class="form-control mt-1"  th:name="orderName" placeholder="주문자 입력해주세요" th:errorclass="field-error">
-                                <div class="field-error" th:errors="*{orderName}">주문자 입력 오류</div>
+                                <input type="text" class="form-control mt-1"  th:name="orderName" placeholder="주문자 입력해주세요" >
+                                <div th:if="${param.get('referer') != null}" style="color:tomato;">주문자 입력이 필요합니다.</div>
                             </div>
-
                             <label for="recipientName">수령자</label>
                             <div>
-                                <input type="text" class="form-control mt-1"  th:name="recipientName" placeholder="수령자의 이름 입력해주세요" th:errorclass="field-error">
-                                <div class="field-error" th:errors="*{recipientName}">수령자 입력 오류</div>
+                                <input type="text" class="form-control mt-1"  th:name="recipientName" placeholder="수령자의 이름 입력해주세요">
                             </div>
                         </th:block>
+                        <div th:if="${param.get('referer') != null}" style="color:tomato;">수령자 입력이 필요합니다.</div>
                     </div>
                 </div>
 
@@ -129,18 +130,17 @@
                     <!--/* 로그인이 되어있을 경우 */-->
                     <th:block th:if="${members != null}">
                         <div>
-                            <input  type="text" class="form-control mt-1"  th:name="orderAddress" th:value="${members.memberAddress}" th:errorclass="field-error">
-                            <div class="field-error" th:errors="*{orderAddress}">수령자 주소 입력 오류</div>
+                            <input  type="text" class="form-control mt-1"  th:name="orderAddress" th:value="${members.memberAddress}">
                         </div>
 
                     </th:block>
                     <!--/* 로그인이 안되어있을 경우 */-->
                     <th:block th:if="${members == null}">
                         <div>
-                            <input  type="text" class="form-control mt-1"  th:name="orderAddress" placeholder="주소를 입력해주세요" th:errorclass="field-error">
-                            <div class="field-error" th:errors="*{orderAddress}">수령자 주소 입력 오류</div>
+                            <input  type="text" class="form-control mt-1"  th:name="orderAddress" placeholder="주소를 입력해주세요">
                         </div>
                     </th:block>
+                    <div th:if="${param.get('referer') != null}" style="color:tomato;">받으실 주소가 필요합니다.</div>
 
 
                 </div>
