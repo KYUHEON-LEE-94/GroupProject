@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -109,9 +110,18 @@ public class PaymentController {
                          HttpServletRequest request,Model model){
 
         if (bindingResult.hasErrors()) {
-            log.info("bindingResults : {}", bindingResult);
+//          각 FieldError들을 받아서 쿼리 스트링으로 기억해서, 부분적으로 발생하는 부분에 대해서만 경고안내를 보여줄 수 있음
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error: errors) {
+                //한군데라도 에러가 발생하면 띄울 전체 경고문구
+                redirectAttributes.addAttribute("someError","someError");
+                //각 부분의 경고문구
+                redirectAttributes.addAttribute(error.getField().toString(),error.getField().toString());
+            }
+
+            //이전 페이지 주소 기억해서 해당 페이지로 redirect하고 쿼리 스트링으로 기억
             String referer = request.getHeader("Referer");
-            redirectAttributes.addAttribute("referer",referer);
+
             return "redirect:"+ referer;
         }
 

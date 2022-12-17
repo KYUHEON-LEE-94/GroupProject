@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface JpaProductRepository extends JpaRepository<Product, String>{
 	// 아이디와 비밀번호에 의한 조회
@@ -18,6 +20,9 @@ public interface JpaProductRepository extends JpaRepository<Product, String>{
 	Page<Product> findAllBySexOrStatusOrTypeNum(String sex, String status, Integer typeNum, Pageable pageable);
 
 	Page<Product> findAllByTypeNumBetween(Integer From, Integer To, Pageable pageable);
+
+	//재고량이 적은 순으로 정렬
+	List<Product> findAllByProductQuantityBetween(Integer from, Integer to);
 
 
 }

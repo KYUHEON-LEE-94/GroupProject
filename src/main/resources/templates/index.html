@@ -112,9 +112,10 @@ a{
                             <i class="fa fa-fw fa-user text-dark mr-3"></i>
                             <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">My</span>
                         </a>
-                        <li class="btn btn-warning"><a th:href="@{/members/logout}" >로그아웃</a></li>
+                        <li class="btn btn-warning"><a th:href="@{/logout}" >로그아웃</a></li>
                     </div>
                 </th:block>
+                <li th:if="${session.admin != null}" class="btn btn-danger"><a th:href="@{/admin(adminlogin=adminlogin)}" >관리자 페이지</a></li>
 
             </div>
 

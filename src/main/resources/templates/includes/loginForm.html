@@ -72,13 +72,10 @@
       padding-top: 20px;
     }
 
-    .field-error {
-      color: #ff0000;
-    }
   </style>
 </head>
 <body>
-<div class="container">
+<div class="container" style="width: 50%; margin: auto; padding: 70px" >
   <!-- header -->
   <div class="login-header">
     <h2 class="form-signin-heading">LHL 쇼핑몰 로그인</h2>
@@ -87,24 +84,21 @@
   <form class="form-signin" th:action="@{/signin}"  method="post" th:object="${loginForm}">
     <!-- 글로벌 오류 처리 -->
     <div th:if="${#fields.hasGlobalErrors()}">
-      <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+      <p cstyle="color:tomato;" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
     </div>
     <input type="text" class="form-control"  placeholder="아이디" th:field="*{memberId}" th:errorclass="field-error">
-    <div class="field-error" th:errors="*{memberId}">아이디 입력 오류</div>
+    <div style="color:tomato; font-size: 7px" th:errors="*{memberId}">아이디 입력 오류</div>
     <input type="password" class="form-control" placeholder="비밀번호" th:field="*{memberPw}" th:errorclass="field-error">
     <input type="hidden" th:field="*{redirect}">
-    <div class="field-error" th:errors="*{memberPw}">비밀번호 입력 오류</div>
+    <div style="color:tomato; font-size: 7px" th:errors="*{memberPw}">비밀번호 입력 오류</div>
     <label class="checkbox"> <input type="checkbox" th:field="*{remember}"> 아이디 저장</label>
     <div class="row form-btn">
-      <button class="btn btn-large btn-warning" type="submit">로그인</button>
-      <a class="btn btn-large btn-default" th:href="@{/members/register}">회원가입</a>
+      <button style="margin-bottom: 15px" class="btn btn-large btn-warning" type="submit">로그인</button>
+      <a class="btn btn-large btn-default btn-dark" th:href="@{/members/register}">회원가입</a>
     </div>
   </form>
 
-  <!-- footer -->
-  <div class="login-footer">
-    <p>© Company 2020.</p>
-  </div>
+
 </div>
 
 <script src="/js/jquery-2.1.0.js"></script>

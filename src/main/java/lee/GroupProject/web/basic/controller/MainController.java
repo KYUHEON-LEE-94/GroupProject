@@ -72,6 +72,13 @@ public class MainController {
 		HttpSession session = request.getSession();
 		session.setAttribute("loginMember", loginMember);
 
+
+		if(loginForm.getMemberId().equalsIgnoreCase("admin1234")){
+			session.setAttribute("admin", loginMember);
+		}
+
+
+
 		// 로그인 저장 체크시
 		if(loginForm.getRemember() == true) {
 			Cookie cookie = new Cookie("rememberId", loginMember.getMemberId());

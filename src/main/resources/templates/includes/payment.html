@@ -58,7 +58,7 @@
 
             <form action="/shop/payment.do" method="post" th:object="${orderDetail}">
                 <div class="row product-info">
-                    <div class="row py-5">
+                    <div class="row py-5" style="border: 1px solid black; margin-bottom: 20px;">
                         <div class="form-group col-md-3 mb-3">
                             <img class="card-img" th:src="@{/assets/img/productIMG/} + ${product.productPhoto}">
                         </div>
@@ -78,7 +78,7 @@
                             </th:block>
                         </div>
                     </div>
-                    <h3 style="color: red; text-align: center; margin-bottom: 30px" th:if="${param.get('referer') != null}" th:text="|입력정보를 다시한번 확인해주세요!|"></h3>
+                    <h3 style="color: red; text-align: center; margin-bottom: 30px" th:if="${param.get('someError') != null}" th:text="|입력정보를 다시한번 확인해주세요!|"></h3>
 
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
@@ -102,7 +102,6 @@
 
                         <th:block th:if="${members != null}">
                                 <input type="text" class="form-control mt-1"  th:name="orderName" th:value="${members.memberName}" readonly>
-
                                 <label for="recipientName">수령자</label>
                             <div>
                                 <input type="text" class="form-control mt-1"  th:name="*{recipientName}" placeholder="수령자의 이름 입력해주세요">
@@ -114,14 +113,14 @@
                             <!--/* orderDetail에 입력되어야 할 정보 */-->
                             <div>
                                 <input type="text" class="form-control mt-1"  th:name="orderName" placeholder="주문자 입력해주세요" >
-                                <div th:if="${param.get('referer') != null}" style="color:tomato;">주문자 입력이 필요합니다.</div>
+                                <div th:if="${param.get('orderName') != null}" style="color:tomato;">주문자 입력이 필요합니다.</div>
                             </div>
                             <label for="recipientName">수령자</label>
                             <div>
                                 <input type="text" class="form-control mt-1"  th:name="recipientName" placeholder="수령자의 이름 입력해주세요">
                             </div>
                         </th:block>
-                        <div th:if="${param.get('referer') != null}" style="color:tomato;">수령자 입력이 필요합니다.</div>
+                        <div th:if="${param.get('recipientName') != null}" style="color:tomato;">수령자 입력이 필요합니다.</div>
                     </div>
                 </div>
 
@@ -140,7 +139,7 @@
                             <input  type="text" class="form-control mt-1"  th:name="orderAddress" placeholder="주소를 입력해주세요">
                         </div>
                     </th:block>
-                    <div th:if="${param.get('referer') != null}" style="color:tomato;">받으실 주소가 필요합니다.</div>
+                    <div th:if="${param.get('orderAddress') != null}" style="color:tomato;">받으실 주소가 필요합니다.</div>
 
 
                 </div>

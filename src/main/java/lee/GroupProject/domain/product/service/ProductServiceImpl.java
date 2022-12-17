@@ -69,4 +69,9 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 	}
+
+	@Override
+	public List<Product> findAllByProductQuantityBetween(Integer from, Integer to) {
+		return jpaProductRepository.findAllByProductQuantityBetween(from,to);
+	}
 }
