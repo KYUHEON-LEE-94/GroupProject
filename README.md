@@ -25,6 +25,78 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 ## 기능 명세서
 [기능 명세서보기](https://docs.google.com/spreadsheets/d/1dZZ9WDroy_Z0zwEdAzWC1t3ZqnuLQOsLEObZysph8Hc/edit?usp=sharing)
 
+# 🤔개인적으로 프로젝트를 진행하면서 어려운 점
+### ✔이규헌
+1. 유효성 검사 코드 작성
+spring boot 코드  
+```java
+//          각 FieldError들을 받아서 쿼리 스트링으로 기억해서, 부분적으로 발생하는 부분에 대해서만 경고안내를 보여줄 수 있음
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (FieldError error: errors) {
+            //한군데라도 에러가 발생하면 띄울 전체 경고문구
+                redirectAttributes.addAttribute("someError","someError");
+                //각 부분의 경고문구
+                redirectAttributes.addAttribute(error.getField().toString(),error.getField().toString());
+            }
+
+            //이전 페이지 주소 기억해서 해당 페이지로 redirect하고 쿼리 스트링으로 기억
+            String referer = request.getHeader("Referer");
+
+            return "redirect:"+ referer;
+        }
+```
+html 코드  
+```html
+<form action="/shop/payment.do" method="post" th:object="${orderDetail}">
+                <div class="row product-info">
+                    <div class="row py-5">
+                        <div class="form-group col-md-3 mb-3">
+                            <img class="card-img" th:src="@{/assets/img/productIMG/} + ${product.productPhoto}">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="name">상품명</label>
+                            <input type="text" class="form-control mt-1"  th:field="${product.productName}" readonly>
+                            <input type="hidden" class="form-control mt-1"  th:field="${product.productNum}" >
+
+                            <label for="size">사이즈</label>
+                            <input type="text" class="form-control mt-1"  th:field="${product.productSize}" readonly>
+
+                            <label for="sex">성별</label>
+                            <th:block th:switch="${product.sex}">
+                                <input th:case="${'U'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                                <input th:case="${'M'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                                <input th:case="${'W'}" type="text" class="form-control mt-1"  th:field="${product.sex}" readonly>
+                            </th:block>
+                        </div>
+                    </div>
+                    <h3 style="color: red; text-align: center; margin-bottom: 30px" th:if="${param.get('referer') != null}" th:text="|입력정보를 다시한번 확인해주세요!|"></h3>
+                   -- 중략--
+```
+**GET방식의 경우 한번 새로고침이 되면 GetMapping()으로 작성한 코드의 정보들이 날라가버린다는 점이 유효성 검사를 할때 어렵게 했습니다.**
+저 위의 짧은 자바 코드를 생각해내는데 약 2일의 시간이 소요된거 같습니다.  
+### 👍해결방법:  
+
+request.getHeader("Referer");로 현재의 주소를 기억하고 있다가 Bindingresult에 Error가 담기면 이전 페이지로 리다이렉트하는 방법을 사용했습니다.
+
+이와 동시에 **redirectAttributes.addAttribute(error.getField().toString(),error.getField().toString());** 발생하는 FieldError와 그내용을 쿼리 스트링으로 함께 보내줍니다.
+
+이렇게 하면 새롭게 로딩된 페이지의 쿼리문에는 제가 원했던 쿼리문들을 전부 그대로 유지하면서 그와 동시에 모든 정보를 그대로 저장해둔채로 사용자에게 다시 보여줄 수 있게 되었습니다.  
+
+Thymeleaf에서는 th:if="${param.get('recipientName') != null}로 이 페이지가 새롭게 로딩된 페이지(오류가 있어서 새로고침이 되었는가?)인지를 판별할 수 있게 됩니다.
+
+![image](https://user-images.githubusercontent.com/101496219/208081798-1ba16706-7e46-48eb-b213-82d2ef4143d1.png)
+
+
+이와 같은 방법으로 경고문을 사용자에게 성공적으로 보여줄 수 있게 되었습니다.
+
+-----------------------------------------
+
+### ✔홍성배  
+
+---------------------------------------
+
+### ✔임정민  
+-------------------------------------
 # commit 템플릿 설정하는 방법
 ### 이미 템플릿 파일은 폴더에 추가되어 있어서 아래의 절차대로만 하시면 됩니다.
 
