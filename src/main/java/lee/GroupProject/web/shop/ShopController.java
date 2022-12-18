@@ -50,13 +50,11 @@ public class ShopController {
 		 */
 		if(searchAll != null){
 			if (8000 == searchAll){
-				Integer searchAllFrom = 8000;
 				Integer searAllTo = 8500;
-				page = service.findAllByTypeNumBetween(searchAllFrom,searAllTo, pageable);
+				page = service.findAllByTypeNumBetween(searchAll,searAllTo, pageable);
 			}else if(8501 == searchAll ){
-				Integer searchAllFrom = 8501;
 				Integer searAllTo = 9000;
-				page = service.findAllByTypeNumBetween(searchAllFrom,searAllTo, pageable);
+				page = service.findAllByTypeNumBetween(searchAll,searAllTo, pageable);
 			}
 
 		}

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
+
 </head>
 
 <body>
@@ -33,10 +34,9 @@
     <!-- Start Content Page -->
     <div class="container-fluid bg-light py-5">
         <div class="col-md-6 m-auto text-center">
-            <h1 class="h1">Contact Us</h1>S
+            <h1 class="h1">Contact Us</h1>
             <p>
-                Proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                Lorem ipsum dolor sit amet.
+                문의 사항이 있으시다면, 언제든지 작성해서 보내주세요.
             </p>
         </div>
     </div>
@@ -45,24 +45,50 @@
     <!-- Start Contact -->
     <div class="container py-5">
         <div class="row py-5">
-            <form class="col-md-9 m-auto" action="/request/form" method="post" role="form" th:object="${contact}">
+            <form class="col-md-9 m-auto" action="/request/form" method="post" role="form" th:object="${contactForm}">
+                <h3 class="text-center" th:if="${param.get('confirm') != null}"> 제출이 완료되었습니다.</h3>
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control mt-1" id="name"  placeholder="Name" th:field="*{contactName}">
+                        <label for="contactName">Name</label>
+                        <input type="text" class="form-control mt-1" placeholder="Name" name="contactName">
+                        <div class="field-error" th:errors="*{contactName}">이름 입력 오류</div>
                     </div>
                     <div class="form-group col-md-6 mb-3">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control mt-1" id="email"  placeholder="Email" th:field="*{contactEmail}">
+                        <label for="contactEmail">Email</label>
+                        <input type="email" class="form-control mt-1" placeholder="Email" name="contactEmail">
+                        <div class="field-error" th:errors="*{contactEmail}">이메일 입력 오류</div>
+                    </div>
+                </div>
+                <div class="row" th:if="${members != null}">
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="memberId">회원 아이디</label>
+                        <input type="text" class="form-control mt-1" name="memberId" th:value="${members.memberId}" readonly>
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="member">회원 여부</label>
+                        <input type="text" class="form-control mt-1"  th:value="회원" readonly>
+                    </div>
+                </div>
+                <div class="row" th:if="${nonMemberId != null}">
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="memberId">회원 아이디</label>
+                        <input type="text" class="form-control mt-1"  th:value="Non-Member" readonly>
+                        <input type="hidden" class="form-control mt-1" name="memberId" th:value="${nonMemberId}">
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="member">회원 여부</label>
+                        <input type="email" class="form-control mt-1" th:value="비회원" readonly>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="subject">Subject</label>
-                    <input type="text" class="form-control mt-1" id="subject"  placeholder="Subject" th:field="*{title}">
+                    <label for="title">Subject</label>
+                    <input type="text" class="form-control mt-1"  placeholder="Subject" name="title">
+                    <div class="field-error" th:errors="*{title}">이메일 입력 오류</div>
                 </div>
                 <div class="mb-3">
-                    <label for="message">Message</label>
-                    <textarea class="form-control mt-1" id="message"  placeholder="Message" rows="8" th:field="*{content}"></textarea>
+                    <label for="content">Message</label>
+                    <textarea class="form-control mt-1" placeholder="문의 내용" rows="8" name="content"></textarea>
+                    <div class="field-error" th:errors="*{content}">이메일 입력 오류</div>
                 </div>
                 <div class="row">
                     <div class="col text-end mt-2">

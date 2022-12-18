@@ -3,14 +3,12 @@ package lee.GroupProject.domain.contact.entitiy;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
 @Entity
-@DynamicInsert
+@SequenceGenerator(name = "contact_seq_gen", sequenceName = "contact_seq", allocationSize = 1)
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,6 +17,7 @@ import java.time.LocalDateTime;
 public class Contact {
 	@Id
 	@Column(name="contact_num")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contact_seq_gen")
 	private Integer contactNum;
 	@Column(name="member_id")
 	private String memberId;

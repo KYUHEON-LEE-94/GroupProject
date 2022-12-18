@@ -1,12 +1,19 @@
 package lee.GroupProject.web.shoppingbasket;
 
+import lee.GroupProject.common.error.ErrorCode;
+import lee.GroupProject.common.error.YzRuntimeException;
 import lee.GroupProject.domain.member.entity.Members;
 import lee.GroupProject.domain.member.service.MemberServiceImpl;
 import lee.GroupProject.domain.orderDetail.dto.OrderDetailForm;
+import lee.GroupProject.domain.orderDetail.entity.OrderDetail;
+import lee.GroupProject.domain.product.entity.Product;
+import lee.GroupProject.domain.product.service.ProductServiceImpl;
 import lee.GroupProject.domain.shoppingBasket.entity.ShoppingBasket;
 import lee.GroupProject.domain.shoppingBasket.service.ShoppingBasketServiceImpl;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +32,16 @@ import java.util.Optional;
  * paymentcontroller에서는 더욱 상세한 정보를 받아서 DB에 저장하는 절차를 진행합니다.
  * @author LEE KYUHEON
  */
+
+@Slf4j
 @Controller
-@RequestMapping("/shop/cart.do")
+@RequestMapping("/shop/cart")
 public class ShoppingBasketController {
     @Autowired
     private ShoppingBasketServiceImpl shoppingBasketService;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     @Autowired
     private MemberServiceImpl memberService;
@@ -42,6 +55,7 @@ public class ShoppingBasketController {
         //세션을 통해서 로그인 여부를 확인한다.
         HttpSession session = request.getSession();
         Members members = (Members) session.getAttribute("loginMember");
+
 
         //장바구니 DB에 저장하는 코드
         ShoppingBasket shoppingBasket = new ShoppingBasket();
@@ -69,10 +83,51 @@ public class ShoppingBasketController {
 
 
     @GetMapping
-    public String showCart(@RequestParam("memberId") String memberId, Model model){
-        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(memberId);
+    public String showCart(@ModelAttribute("orderDetail") OrderDetail orderDetail,
+                           HttpServletRequest request,
+                           Model model){
+
+        HttpSession session = request.getSession();
+        Members members = (Members) session.getAttribute("loginMember");
+        if(members.getMemberId() == null){
+            throw new YzRuntimeException();
+        }
+
+
+        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
         model.addAttribute("list", list);
+
+
+            List<Product> products = new ArrayList<>();
+            for (ShoppingBasket cart: list) {
+                Product product = productService.findByProductNum(cart.getProductNum());
+                products.add(product);
+            }
+
+        model.addAttribute("products",products);
+
+
         return "includes/cart";
+
+    }
+
+    /**
+     * 장바구니 삭제
+     * @param productNum
+     * @return
+     */
+    @PostMapping("/form")
+    public String doDel(@RequestParam("productNum") String productNum,
+                         HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        Members members = (Members) session.getAttribute("loginMember");
+
+        shoppingBasketService.deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(members.getMemberId(),productNum);
+
+        String referer = request.getHeader("Referer");
+
+        return "redirect:"+ referer;
 
     }
 

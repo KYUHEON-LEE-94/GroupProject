@@ -8,6 +8,7 @@ import lee.GroupProject.domain.member.service.MemberService;
 import lee.GroupProject.domain.member.service.MemberServiceImpl;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.service.ProductServiceImpl;
+import lee.GroupProject.domain.shoppingBasket.service.ShoppingBasketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,7 @@ public class MainController {
 
 	@Autowired
 	private MemberServiceImpl memberService;
+
 	@GetMapping("/")
 	public String main(Model model){
 

@@ -18,4 +18,5 @@ public interface JpaShoppingBasketRepository extends JpaRepository<ShoppingBaske
 
     public void deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(String memberId, String productNum);
 
+
 }
