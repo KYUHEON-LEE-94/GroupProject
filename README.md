@@ -25,6 +25,23 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 ## 기능 명세서
 [기능 명세서보기](https://docs.google.com/spreadsheets/d/1dZZ9WDroy_Z0zwEdAzWC1t3ZqnuLQOsLEObZysph8Hc/edit?usp=sharing)
 
+## 주요 기능
+### 종류별 제품 보기 +(페이징 처리)
+![shop](https://user-images.githubusercontent.com/101496219/208280853-4c016d42-6063-489b-8343-cfdbe23c15f8.png)
+**성별과 상품별로 볼수 있는 카테고리별 분류와 페이징 처리가 되어있는 화면입니다.**  
+### 주문하기
+![주문](https://user-images.githubusercontent.com/101496219/208280836-9dfef564-fcc7-4ce5-8779-9adfd7cfe76c.png)
+**필요 정보를 입력받아 주문할 수 있는 화면입니다.**  
+### 문의하기
+![contact](https://user-images.githubusercontent.com/101496219/208280863-09e77b78-1502-45be-b2cf-09d8802df75f.png)
+**간단한 정보를 받아서 문의할 수 있는 화면입니다.**  
+### 유효성 검증
+![valid1](https://user-images.githubusercontent.com/101496219/208280866-60a25d31-ce75-4e83-8b47-315b140e224c.png)
+**문의화면의 유효성 검증**  
+![valide2](https://user-images.githubusercontent.com/101496219/208280871-d5c0dd69-031b-4b72-baf2-dd1316e83154.png)
+**주문 화면의 유효성 검증**  
+
+
 # 🤔개인적으로 프로젝트를 진행하면서 어려운 점
 ### ✔이규헌
 1. 유효성 검사 코드 작성
@@ -89,14 +106,73 @@ Thymeleaf에서는 th:if="${param.get('recipientName') != null}로 이 페이지
 
 이와 같은 방법으로 경고문을 사용자에게 성공적으로 보여줄 수 있게 되었습니다.
 
+2. 카테고리별 상품 분류
+```html
+     <li class="pb-3" th:href="@{/shop(searchAll=8000)}">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none"  th:text="#{web.shop.MantoMan }">
+                            MantoMan
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseTwo" class="collapse list-unstyled pl-3">
+                            <li><a class="text-decoration-none" th:href="@{/shop(searchAll=8000)}">All</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8000)}" th:text="#{web.shop.MantoMan.Club}">Club</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8001)}" th:text="#{web.shop.MantoMan.OverFit}">OverFit</a></li>
+                        </ul>
+                    </li>
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{web.shop.Hood}">
+                            Hood
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>
+                        <ul id="collapseThree" class="collapse list-unstyled pl-3">
+                            <li><a class="text-decoration-none" th:href="@{/shop(searchAll=8501)}">All</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/shop(search=8501)}" th:text="#{web.shop.Hood.Heavy}">Heavy</a></li>
+
+                        </ul>
+                    </li>
+                    중략
+```
+
+```java
+public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable,
+								@RequestParam(required = false, defaultValue = "") String search,
+								@RequestParam(required = false, defaultValue = "") Integer searchAll,
+								Model model) {
+		//th:object 설정을 위한 Model.
+		Product product = new Product();
+		model.addAttribute("product", product);
+
+		//paging 처리를 위한 service 처리
+		Page<Product> page = service.findProducts(search, pageable);
+
+		//만약 searchALl(모두 검색) 파라미터가 있다면 아래와 같이 처리를 하겠다.
+		/**
+		 * 8000 = 모든 맨투맨
+		 * 8501 = 모든 후드티
+		 */
+		if(searchAll != null){
+			if (8000 == searchAll){
+				Integer searAllTo = 8500;
+				page = service.findAllByTypeNumBetween(searchAll,searAllTo, pageable);
+			}else if(8501 == searchAll ){
+				Integer searAllTo = 9000;
+				page = service.findAllByTypeNumBetween(searchAll,searAllTo, pageable);
+			}
+
+		}
+```
+**Shop 페이지를 만들때 제일 많은 고민을 한 부분입니다. ++
+
+### 👍해결방법:  
+카테고리별 상품분류 번호를 쿼리스트링으로 같이 넘겨서 처리하는 방법을 사용했습니다.  
+각 상품은 분류번호를 가지고 있게 ERD로 설계되어있습니다.  
+하여, 해당 번호를 쿼리 스트링으로 넘기고, Controller에서는 해당 번호를 받아서 상품별 목록을 처리할 수 있도록 코딩했습니다.
+각 상품을 누를경우에는 search를 key값으로 하였고, All 버튼을 누를경우에는 SearchAll을 key값으로 사용하였습니다.
+그리고 특정 상품번호의 시작 분류번호값 ~ 끝 분류번호 값을 입력받을 수 있도록 설정하여 이 문제를 해결하였습니다.
+
 -----------------------------------------
 
-### ✔홍성배  
 
----------------------------------------
-
-### ✔임정민  
--------------------------------------
 # commit 템플릿 설정하는 방법
 ### 이미 템플릿 파일은 폴더에 추가되어 있어서 아래의 절차대로만 하시면 됩니다.
 
