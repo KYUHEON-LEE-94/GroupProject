@@ -27,18 +27,18 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 
 ## 주요 기능
 ### 종류별 제품 보기 +(페이징 처리)
-![shop](https://user-images.githubusercontent.com/101496219/208280853-4c016d42-6063-489b-8343-cfdbe23c15f8.png)
+![shop](https://user-images.githubusercontent.com/101496219/208280853-4c016d42-6063-489b-8343-cfdbe23c15f8.png)  
 **성별과 상품별로 볼수 있는 카테고리별 분류와 페이징 처리가 되어있는 화면입니다.**  
 ### 주문하기
-![주문](https://user-images.githubusercontent.com/101496219/208280836-9dfef564-fcc7-4ce5-8779-9adfd7cfe76c.png)
+![주문](https://user-images.githubusercontent.com/101496219/208280836-9dfef564-fcc7-4ce5-8779-9adfd7cfe76c.png)  
 **필요 정보를 입력받아 주문할 수 있는 화면입니다.**  
 ### 문의하기
-![contact](https://user-images.githubusercontent.com/101496219/208280863-09e77b78-1502-45be-b2cf-09d8802df75f.png)
+![contact](https://user-images.githubusercontent.com/101496219/208280863-09e77b78-1502-45be-b2cf-09d8802df75f.png)  
 **간단한 정보를 받아서 문의할 수 있는 화면입니다.**  
 ### 유효성 검증
-![valid1](https://user-images.githubusercontent.com/101496219/208280866-60a25d31-ce75-4e83-8b47-315b140e224c.png)
+![valid1](https://user-images.githubusercontent.com/101496219/208280866-60a25d31-ce75-4e83-8b47-315b140e224c.png)  
 **문의화면의 유효성 검증**  
-![valide2](https://user-images.githubusercontent.com/101496219/208280871-d5c0dd69-031b-4b72-baf2-dd1316e83154.png)
+![valide2](https://user-images.githubusercontent.com/101496219/208280871-d5c0dd69-031b-4b72-baf2-dd1316e83154.png)  
 **주문 화면의 유효성 검증**  
 
 
