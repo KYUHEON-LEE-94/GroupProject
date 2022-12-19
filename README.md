@@ -26,6 +26,9 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 [기능 명세서보기](https://docs.google.com/spreadsheets/d/1dZZ9WDroy_Z0zwEdAzWC1t3ZqnuLQOsLEObZysph8Hc/edit?usp=sharing)
 
 ## 주요 기능
+### 회원가입
+![signup](https://user-images.githubusercontent.com/101496219/208396437-b0fb2101-01a0-4884-b6c5-1cbd9202f9d2.png)  
+**회원가입 페이지입니다.**  
 ### 종류별 제품 보기 +(페이징 처리)
 ![shop](https://user-images.githubusercontent.com/101496219/208280853-4c016d42-6063-489b-8343-cfdbe23c15f8.png)  
 **성별과 상품별로 볼수 있는 카테고리별 분류와 페이징 처리가 되어있는 화면입니다.**  
@@ -43,6 +46,8 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 **문의화면의 유효성 검증**  
 ![valide2](https://user-images.githubusercontent.com/101496219/208280871-d5c0dd69-031b-4b72-baf2-dd1316e83154.png)  
 **주문 화면의 유효성 검증**  
+![valide3](https://user-images.githubusercontent.com/101496219/208396641-fc807889-6e29-42d8-ba72-0749b3895795.png)
+**회원가입 화면의 유효성 검증**  
 
 
 
@@ -174,6 +179,74 @@ public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "product
 각 상품을 누를경우에는 search를 key값으로 하였고, All 버튼을 누를경우에는 SearchAll을 key값으로 사용하였습니다.
 그리고 특정 상품번호의 시작 분류번호값 ~ 끝 분류번호 값을 입력받을 수 있도록 설정하여 이 문제를 해결하였습니다.
 
+3. REST API 개념 적용
+``` java
+    @PostMapping("/{memberId}")
+    //장바구니 아이콘을 눌렀을때 장바구니 목록에 담고, redirect
+    public String PostCart(@PathVariable(required = false) String memberId,
+                           @RequestParam(value = "product-quanity", required = false, defaultValue = "1") Integer productQuantity,
+                           @RequestParam("productNum") String productNum,
+                           HttpServletRequest request){
+        //장바구니 DB에 저장하는 코드
+        ShoppingBasket shoppingBasket = new ShoppingBasket();
+        shoppingBasket.setShoppingQuantity(productQuantity);
+        shoppingBasket.setProductNum(productNum);
+
+        if(memberId != null){
+            shoppingBasket.setMemberId(memberId);
+        }
+        shoppingBasketService.register(shoppingBasket);
+        return  "redirect:/shop/cart/{memberId}";
+    }
+```
+
+```java
+    @GetMapping("/{memberId}")
+    public String showCart(@ModelAttribute("orderDetail") OrderDetail orderDetail,
+                           @PathVariable(required = false) String memberId,
+                           HttpServletRequest request,
+                           Model model){
+
+        HttpSession session = request.getSession();
+        Members members = (Members) session.getAttribute("loginMember");
+        if(members.getMemberId() == null){
+            throw new YzRuntimeException();
+        }
+
+
+        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
+        model.addAttribute("list", list);
+
+            List<Product> products = new ArrayList<>();
+            for (ShoppingBasket cart: list) {
+                Product product = productService.findByProductNum(cart.getProductNum());
+                products.add(product);
+            }
+        model.addAttribute("products",products);
+        return "includes/cart";
+    }
+```
+
+shop.html  
+```html
+                     <form th:if="${members != null}" th:action="@{/shop/cart/}+${members.getMemberId()}" method="post">
+                                            <input type="hidden" name="productNum" th:value="${listpro.productNum}">
+                                            <input type="hidden" name="roduct-quanity" th:value="${listpro.productQuantity}">
+                                            <li><button type="submit" class="btn btn-success text-white mt-2"><i class="fas fa-cart-plus"></i></button></li>
+                                        </form>
+
+                                        <form th:if="${members == null}">
+                                        </form>
+```
+
+**처음으로 REST API 개념 적용을 시도한 부분입니다. ++
+
+### 👍해결방법:  
+샵 페이지에서 로그인되어 있는 사용자에게만 카트 아이콘이 보이도록 설정했습니다.
+![cartIcon](https://user-images.githubusercontent.com/101496219/208403176-1136009a-a9dc-4b40-bbab-c050a15e0181.png)
+해당 아이콘을 누르면, 장바구니 DB에 저장되는 동시에 사용자 ID에 해당하는 장바구니 페이지로 리다이렉트될 수있도록 설정하였습니다.
+처음으로 **@PathVariable**을 사용하였기 때문에 Get, Post 로직에 대하여 혼동이 있어서 약간의 시행착오를 겪어야 했습니다.
+**여러번 시도하고 공부한 끝에 성공적으로 REST API 개념을 적용하여 장바구니 페이지를 보여줄 수 있도록 하였습니다. **
 -----------------------------------------
 
 
