@@ -32,6 +32,9 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 ### 주문하기
 ![주문](https://user-images.githubusercontent.com/101496219/208280836-9dfef564-fcc7-4ce5-8779-9adfd7cfe76c.png)  
 **필요 정보를 입력받아 주문할 수 있는 화면입니다.**  
+### 장바구니
+![cart](https://user-images.githubusercontent.com/101496219/208386830-a7798fa7-ffa1-4a04-990c-dfba9e93ebad.png)
+**사용자가 담아둔 목록을 볼 수 있습니다.**
 ### 문의하기
 ![contact](https://user-images.githubusercontent.com/101496219/208280863-09e77b78-1502-45be-b2cf-09d8802df75f.png)  
 **간단한 정보를 받아서 문의할 수 있는 화면입니다.**  
@@ -40,6 +43,7 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 **문의화면의 유효성 검증**  
 ![valide2](https://user-images.githubusercontent.com/101496219/208280871-d5c0dd69-031b-4b72-baf2-dd1316e83154.png)  
 **주문 화면의 유효성 검증**  
+
 
 
 # 🤔개인적으로 프로젝트를 진행하면서 어려운 점
