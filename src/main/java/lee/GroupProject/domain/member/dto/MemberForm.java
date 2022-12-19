@@ -39,6 +39,7 @@ public class MemberForm {
 	@NotBlank(message = "전화번호는 필수입니다.")
 	private String phoneNum;
 	private String homeNum;
+	@NotBlank(message = "주소 필수입니다.")
 	private String memberAddress;
 }
 
