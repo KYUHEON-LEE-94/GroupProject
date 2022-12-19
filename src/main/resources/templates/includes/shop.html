@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a href="#" class="h3 text-decoration-none" th:field="*{productName}" th:text="${listpro.productName}">Oupidatat non</a>
+                                <a href="#" class="h3 text-decoration-none" th:field="*{productName}" th:text="${listpro.productName}">상품명</a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                     <th:block th:switch="${listpro.sex}">
                                         <li th:case="${'U'}" th:field="*{productSize}" th:text="|${listpro.productSize} (Union)|">M/L/X/XL</li>
@@ -144,10 +144,13 @@
                                     <ul class="list-unstyled">
 <!--                                        <li><a class="btn btn-success text-white" th:href="@{/shopSingles.do(ProductNum = ${listpro.productNum})}"><i class="far fa-heart"></i></a></li>-->
                                         <li><a class="btn btn-success text-white mt-2" th:href="@{/shopSingles.do(ProductNum = ${listpro.productNum})}"><i class="far fa-eye"></i></a></li>
-                                        <form action="/shop/cart" method="post">
+                                        <form th:if="${members != null}" th:action="@{/shop/cart/}+${members.getMemberId()}" method="post">
                                             <input type="hidden" name="productNum" th:value="${listpro.productNum}">
                                             <input type="hidden" name="roduct-quanity" th:value="${listpro.productQuantity}">
                                             <li><button type="submit" class="btn btn-success text-white mt-2"><i class="fas fa-cart-plus"></i></button></li>
+                                        </form>
+
+                                        <form th:if="${members == null}">
                                         </form>
 
                                     </ul>

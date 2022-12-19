@@ -1,5 +1,7 @@
 package lee.GroupProject.web.shop;
 
+import lee.GroupProject.common.error.YzRuntimeException;
+import lee.GroupProject.domain.member.entity.Members;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.repository.JpaProductRepository;
 import lee.GroupProject.domain.product.service.ProductServiceImpl;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -35,10 +39,19 @@ public class ShopController {
 	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable,
 								@RequestParam(required = false, defaultValue = "") String search,
 								@RequestParam(required = false, defaultValue = "") Integer searchAll,
+								HttpServletRequest request,
 								Model model) {
 		//th:object 설정을 위한 Model.
 		Product product = new Product();
 		model.addAttribute("product", product);
+
+		HttpSession session = request.getSession();
+		Members members = (Members) session.getAttribute("loginMember");
+		if(members != null){
+			model.addAttribute("members",members);
+		}else if(members == null){
+			model.addAttribute("members",null);
+		}
 
 		//paging 처리를 위한 service 처리
 		Page<Product> page = service.findProducts(search, pageable);

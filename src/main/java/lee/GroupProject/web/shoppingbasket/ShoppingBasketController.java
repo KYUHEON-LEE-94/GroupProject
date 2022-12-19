@@ -82,8 +82,10 @@ public class ShoppingBasketController {
 
 
 
-    @GetMapping
+
+    @GetMapping("/{memberId}")
     public String showCart(@ModelAttribute("orderDetail") OrderDetail orderDetail,
+                           @PathVariable(required = false) String memberId,
                            HttpServletRequest request,
                            Model model){
 
@@ -129,6 +131,26 @@ public class ShoppingBasketController {
 
         return "redirect:"+ referer;
 
+    }
+
+
+
+    @PostMapping("/{memberId}")
+    //장바구니 아이콘을 눌렀을때 장바구니 목록에 담고, redirect
+    public String PostCart(@PathVariable(required = false) String memberId,
+                           @RequestParam(value = "product-quanity", required = false, defaultValue = "1") Integer productQuantity,
+                           @RequestParam("productNum") String productNum,
+                           HttpServletRequest request){
+        //장바구니 DB에 저장하는 코드
+        ShoppingBasket shoppingBasket = new ShoppingBasket();
+        shoppingBasket.setShoppingQuantity(productQuantity);
+        shoppingBasket.setProductNum(productNum);
+
+        if(memberId != null){
+            shoppingBasket.setMemberId(memberId);
+        }
+        shoppingBasketService.register(shoppingBasket);
+        return  "redirect:/shop/cart/{memberId}";
     }
 
 
