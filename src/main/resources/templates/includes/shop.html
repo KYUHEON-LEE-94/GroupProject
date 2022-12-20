@@ -125,12 +125,17 @@
                                     </li>
                                 </ul>
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
+                                    <li th:if="${productGradeList.containsKey(listpro.productNum)}" th:with="grade = ${productGradeList.get(listpro.productNum)}">
+                                        <th:block th:each="num: ${#numbers.sequence(1, grade)}">
+                                            <i class="text-warning fa fa-star"></i>
+                                        </th:block>
+                                        <th:block th:if="${grade < 5}" th:each="num: ${#numbers.sequence(1, 5 - grade)}">
+                                            <i class="text-muted fa fa-star"></i>
+                                        </th:block>
+                                    </li>
+
+                                    <li th:unless="${productGradeList.containsKey(listpro.productNum)}">
+                                        <p style="color:#b2dba1;" th:text="|평가 없음|"></p>
                                     </li>
                                 </ul>
                                 <p class="text-center mb-0" th:field="*{productPrice}" th:text="|${listpro.productPrice}원|">$250.00</p>
@@ -173,12 +178,17 @@
                                     </li>
                                 </ul>
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
-                                    <li>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-warning fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
-                                        <i class="text-muted fa fa-star"></i>
+                                    <li th:if="${productGradeList.containsKey(listpro.productNum)}" th:with="grade = ${productGradeList.get(listpro.productNum)}">
+                                        <th:block th:each="num: ${#numbers.sequence(1, grade)}">
+                                            <i class="text-warning fa fa-star"></i>
+                                        </th:block>
+                                        <th:block th:if="${grade < 5}" th:each="num: ${#numbers.sequence(1, 5 - grade)}">
+                                            <i class="text-muted fa fa-star"></i>
+                                        </th:block>
+                                    </li>
+
+                                    <li th:unless="${productGradeList.containsKey(listpro.productNum)}">
+                                        <p style="color:#b2dba1;" th:text="|평가 없음|"></p>
                                     </li>
                                 </ul>
                                 <p class="text-center mb-0" th:field="*{productPrice}" th:text="|${listpro.productPrice}원|">$250.00</p>

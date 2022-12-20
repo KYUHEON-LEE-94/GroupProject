@@ -53,8 +53,7 @@ public class ShoppingBasketController {
                          RedirectAttributes redirectAttributes){
 
         //세션을 통해서 로그인 여부를 확인한다.
-        HttpSession session = request.getSession();
-        Members members = (Members) session.getAttribute("loginMember");
+        Members members = getLoginMember(request);
 
 
         //장바구니 DB에 저장하는 코드
@@ -80,17 +79,43 @@ public class ShoppingBasketController {
         return "redirect:/shop/payment.do";
     }
 
+    // index에서 아이콘을 누르면 바로 이동되는 cart
+    @GetMapping()
+    public String showCartNormal(@ModelAttribute("orderDetail") OrderDetail orderDetail,
+                           HttpServletRequest request,
+                           Model model){
 
+        Members members = getLoginMember(request);
+        if(members.getMemberId() == null){
+            throw new YzRuntimeException();
+        }
+
+
+        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
+        model.addAttribute("list", list);
+
+
+        List<Product> products = new ArrayList<>();
+        for (ShoppingBasket cart: list) {
+            Product product = productService.findByProductNum(cart.getProductNum());
+            products.add(product);
+        }
+
+        model.addAttribute("products",products);
+
+        return "includes/cart";
+
+    }
 
 
     @GetMapping("/{memberId}")
-    public String showCart(@ModelAttribute("orderDetail") OrderDetail orderDetail,
+    public String showCartIcon(@ModelAttribute("orderDetail") OrderDetail orderDetail,
                            @PathVariable(required = false) String memberId,
                            HttpServletRequest request,
                            Model model){
 
-        HttpSession session = request.getSession();
-        Members members = (Members) session.getAttribute("loginMember");
+
+        Members members = getLoginMember(request);
         if(members.getMemberId() == null){
             throw new YzRuntimeException();
         }
@@ -122,8 +147,7 @@ public class ShoppingBasketController {
     public String doDel(@RequestParam("productNum") String productNum,
                          HttpServletRequest request){
 
-        HttpSession session = request.getSession();
-        Members members = (Members) session.getAttribute("loginMember");
+        Members members = getLoginMember(request);
 
         shoppingBasketService.deleteShoppingBasketByMemberIdAndProductNumOrderByShoppingDateAsc(members.getMemberId(),productNum);
 
@@ -154,4 +178,10 @@ public class ShoppingBasketController {
     }
 
 
+    //session에서 loginMember 얻어오는 메서드
+    public Members getLoginMember(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Members members = (Members) session.getAttribute("loginMember");
+        return members;
+    }
 }

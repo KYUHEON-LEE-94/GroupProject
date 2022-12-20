@@ -1,6 +1,8 @@
 package lee.GroupProject.web.shop;
 
 import lee.GroupProject.common.error.YzRuntimeException;
+import lee.GroupProject.domain.grade.entity.Grade;
+import lee.GroupProject.domain.grade.service.GradeServiceImpl;
 import lee.GroupProject.domain.member.entity.Members;
 import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.repository.JpaProductRepository;
@@ -14,12 +16,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Shop Main 컨트롤러
@@ -33,18 +40,20 @@ public class ShopController {
 	@Autowired
 	private ProductServiceImpl service;
 
+	@Autowired
+	private GradeServiceImpl gradeService;
+
 
 	// 검색 및 페이징 처리 + list 목록 출력
 	@GetMapping
 	public String ProductPaging(@PageableDefault(page = 0, size = 6, sort = "productQuantity", direction = Sort.Direction.DESC) Pageable pageable,
+								@ModelAttribute("product") Product product,
 								@RequestParam(required = false, defaultValue = "") String search,
 								@RequestParam(required = false, defaultValue = "") Integer searchAll,
 								HttpServletRequest request,
 								Model model) {
-		//th:object 설정을 위한 Model.
-		Product product = new Product();
-		model.addAttribute("product", product);
 
+		//Session에서 loginMember 구해오기
 		HttpSession session = request.getSession();
 		Members members = (Members) session.getAttribute("loginMember");
 		if(members != null){
@@ -74,6 +83,23 @@ public class ShopController {
 
 		//paging 처리를 위한 getContent()
 		List<Product> productList = page.getContent();
+		Map<String, Integer> productGradeList = new HashMap();
+		for (Product productLi : productList) {
+
+			List<Grade> gradeList  = gradeService.findAllByProductNum(productLi.getProductNum());
+			Integer gradeAVG = 0;
+
+			for (Grade grade :gradeList) {
+					gradeAVG += grade.getScore();
+			}
+
+			if(gradeAVG != 0){
+				gradeAVG = gradeAVG/gradeList.size();
+				productGradeList.put(productLi.getProductNum(),gradeAVG);
+				model.addAttribute("productGradeList",productGradeList);
+			}
+
+		}
 
 
 		long totalElements = page.getTotalElements();
@@ -92,6 +118,7 @@ public class ShopController {
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("hasPrevious", hasPrevious);
 		model.addAttribute("hasNext", hasNext);
+
 
 		return "includes/shop";
 	}
