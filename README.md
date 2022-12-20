@@ -247,6 +247,59 @@ shop.html
 해당 아이콘을 누르면, 장바구니 DB에 저장되는 동시에 사용자 ID에 해당하는 장바구니 페이지로 리다이렉트될 수있도록 설정하였습니다.
 처음으로 **@PathVariable**을 사용하였기 때문에 Get, Post 로직에 대하여 혼동이 있어서 약간의 시행착오를 겪어야 했습니다.
 **여러번 시도하고 공부한 끝에 성공적으로 REST API 개념을 적용하여 장바구니 페이지를 보여줄 수 있도록 하였습니다. **
+
+4. 별점 기능
+```java
+		List<Product> productList = page.getContent();
+		Map<String, Integer> productGradeList = new HashMap();
+		for (Product productLi : productList) {
+
+			List<Grade> gradeList  = gradeService.findAllByProductNum(productLi.getProductNum());
+			Integer gradeAVG = 0;
+
+			for (Grade grade :gradeList) {
+					gradeAVG += grade.getScore();
+			}
+
+			if(gradeAVG != 0){
+				gradeAVG = (int) Math.ceil(gradeAVG/gradeList.size());
+				productGradeList.put(productLi.getProductNum(),gradeAVG);
+				model.addAttribute("productGradeList",productGradeList);
+			}
+
+		}
+```
+
+```html
+                                <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                    <li th:if="${productGradeList.containsKey(listpro.productNum)}" th:with="grade = ${productGradeList.get(listpro.productNum)}">
+                                        <th:block th:each="num: ${#numbers.sequence(1, grade)}">
+                                            <i class="text-warning fa fa-star"></i>
+                                        </th:block>
+                                        <th:block th:if="${grade < 5}" th:each="num: ${#numbers.sequence(1, 5 - grade)}">
+                                            <i class="text-muted fa fa-star"></i>
+                                        </th:block>
+                                    </li>
+
+                                    <li th:unless="${productGradeList.containsKey(listpro.productNum)}">
+                                        <p style="color:#b2dba1;" th:text="|평가 없음|"></p>
+                                    </li>
+                                </ul>
+```
+### 설명:  
+DB에 저장된 별점을 Controller부분에 제품번호를 이용해 불러와서 view에 호출해주는 기능입니다.
+각 제품번호에 맞는 평점을 보여주어야 하기 때문에 이번에는 List가 아닌 Map을 사용했습니다.
+
+
+### 👍해결방법:  
+for each, if문을 사용하여 별점이 있는 제품만 Map에 담아서 view에 보여줬습니다.
+key값은 제품번호, Value는 해당 제품의 평가 점수를 담아서 사용하였습니다.
+view 부분에서는 '해당하는 제품번호가 key로서 존재하는가?' 를 조건으로 사용하였습니다.
+
+### 🤦‍♂️아쉬운점:  
+만들어보고 나서, JPA의 @JoinColumn을 사용하여 grade 테이블과 제품 테이블을 조인하여 사용하는 편이 더 좋았을 수도 있다는 생각이 들었습니다.
+해당 코드를 작성할 때는 미처 떠올리지 못한 방법이었는데, 추후에 이런 경우가 있다면 @JoinColumn을 사용해 봐야겠다는 자기 피드백이 있었습니다.
+
 -----------------------------------------
 
 
