@@ -30,8 +30,8 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 ![signup](https://user-images.githubusercontent.com/101496219/208396437-b0fb2101-01a0-4884-b6c5-1cbd9202f9d2.png)  
 **회원가입 페이지입니다.**  
 ### 종류별 제품 보기 +(페이징 처리)
-![shop](https://user-images.githubusercontent.com/101496219/208280853-4c016d42-6063-489b-8343-cfdbe23c15f8.png)  
-**성별과 상품별로 볼수 있는 카테고리별 분류와 페이징 처리가 되어있는 화면입니다.**  
+![shop](https://user-images.githubusercontent.com/101496219/208609797-ff4dbb21-0f1e-43d7-817d-9157225aeac0.png)
+**성별과 상품별로 볼수 있는 카테고리별 분류와 페이징 처리가 되어있는 화면입니다. + 별점도 확인가능합니다.**  
 ### 주문하기
 ![주문](https://user-images.githubusercontent.com/101496219/208280836-9dfef564-fcc7-4ce5-8779-9adfd7cfe76c.png)  
 **필요 정보를 입력받아 주문할 수 있는 화면입니다.**  
