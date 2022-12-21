@@ -94,7 +94,7 @@ public class ShopController {
 			}
 
 			if(gradeAVG != 0){
-				gradeAVG = gradeAVG/gradeList.size();
+				gradeAVG = (int) Math.ceil(gradeAVG/gradeList.size());
 				productGradeList.put(productLi.getProductNum(),gradeAVG);
 				model.addAttribute("productGradeList",productGradeList);
 			}

@@ -21,11 +21,12 @@ ALTER TABLE members ADD CONSTRAINT PK_MEMBERS PRIMARY KEY (
 );
 
 INSERT INTO members (member_id, member_pw, member_name, member_email, phone_num,member_address)
-VALUES ('xmanxman', '111111', '이규헌', 'panpan68@naver.com', '010-2112-4330','서울 특별시 노원구');
+VALUES ('admin1234', '111111', '이규헌', 'panpan68@naver.com', '010-2112-4330','서울 특별시');
 
 INSERT INTO members (member_id, member_pw, member_name, member_email)
 VALUES ('Nonmember', '111111', '비회원', 'None@none');
 
+commit;
 
 SELECT *
 FROM members;
@@ -75,7 +76,9 @@ START WITH 4000
 INCREMENT BY 1; 
 
 INSERT INTO grade (grade_num, product_num, member_id, score)
-VALUES (grade_seq.nextval, 'test', '시험', 5);
+VALUES (grade_seq.nextval, 'BlackMM-UF', 'xmanxman', 3);
+
+commit;
 -------------------------------------------------------------------
 
 ---장바구니--------------------
@@ -201,8 +204,14 @@ FROM product;
 SELECT *
 FROM members;
 
-DELETE FROM order_detail
-WHERE ORDER_ADDRESS = '노원';
+SELECT *
+FROM contact;
+
+SELECT *
+FROM shopping_basket;
+
+DELETE FROM shopping_basket
+WHERE MEMBER_ID = 'Nonmember';
 
 DELETE FROM order_detail
 WHERE MEMBER_ID = 'Nonmember';
@@ -210,16 +219,10 @@ WHERE MEMBER_ID = 'Nonmember';
 DELETE FROM order_list
 WHERE MEMBER_ID = 'Nonmember';
 
-commit;
+DELETE FROM members
+WHERE MEMBER_ID = 'admin#';
 
-    select
-        orderlist0_.member_id as member_id1_2_,
-        orderlist0_.order_num as order_num2_2_,
-        orderlist0_.product_num as product_num3_2_ 
-    from
-        order_list orderlist0_ 
-    where
-        orderlist0_.product_num='Gray2OMM-UF';
+commit;
 
 
 
