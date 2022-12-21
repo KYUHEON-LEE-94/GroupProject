@@ -5,7 +5,7 @@
 ## 프로젝트 팀
 ✔ 이규헌(panpan68@naver.com) [팀장]  
 ✔ 홍성배(qnazl0925@naver.com) [팀원]  
-✔ 임지연(skechc@naver.com) [팀원] 
+✔ 김민재(minjae@gmail.com) [팀원] 
 
 ## 프로젝트 목표
 + 맨투맨, 후드티를 전문적으로 파는 쇼핑몰 웹사이트
