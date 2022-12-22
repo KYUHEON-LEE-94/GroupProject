@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{admin/layout/templateV1 :: layout(~{::title}, ~{::header}, ~{::nav}, ~{::section})}">
+
+<!-- 타이틀 -->
+<title>:: 커뮤니티 회원 가입 ::</title>
+
+<!-- 커뮤니티 소개 -->
+<header></header>
+
+<!-- 내비게이션 -->
+<nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+        <ol class="breadcrumb">
+          <li><a href="/">홈</a></li>
+          <li class="active">커뮤니티 회원가입</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- 컨텐츠 -->
+<section class="row">
+  <div class="col-lg-12">
+
+    <div class="page-header">
+      <h2 id="container">커뮤니티 회원상세</h2>
+    </div>
+
+    <div class="alert alert-dismissable alert-success"
+      th:if="${#strings.equals(param.status, 'new')}">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>커뮤니티 회원 가입을 축하합니다.</strong>
+    </div>
+
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <strong>정보 수정은 신중하게 진행해주세요.</strong>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <colgroup>
+          <col width="15%">
+          <col width="35%">
+          <col width="15%">
+          <col width="35%">
+        </colgroup>
+        <tbody>
+          <tr>
+            <th class="text-center">아이디</th>
+            <td class="text-left" th:text="${member.memberId}">id</td>
+            <th class="text-center">회원명</th>
+            <td class="text-left" th:text="${member.memberName}">name</td>
+            <th class="text-center">이메일</th>
+            <td class="text-left" th:text="${member.memberEmail}">email</td>
+          </tr>
+          <tr>
+            <th class="text-center">폰넘버</th>
+            <td class="text-left" th:text="${member.phoneNum}">phoneNum</td>
+            <th class="text-center">주소</th>
+            <td class="text-left" th:text="${member.memberAddress}">addresss</td>
+            <th class="text-center">가입일자</th>
+            <td class="text-left"
+              th:text="${#temporals.format(member.joinDate, 'yyyy-MM-dd HH:mm:ss')}">regdate</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull-right">
+      <button class="btn btn-success" onclick="location.href='#'">정보수정</button>
+      <button class="btn btn-warning" onclick="location.href='/admin/member'">회원목록</button>
+    </div>
+
+  </div>
+</section>
+
+
+</html>
