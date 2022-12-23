@@ -21,4 +21,6 @@ public interface ProductService {
 	Page<Product> findAllByTypeNumBetween(Integer searchAllFrom,Integer searchAllTo, Pageable pageable);
 
 	List<Product> findAllByProductQuantityBetween(Integer from, Integer to);
+
+	Page<Product> findAllByProductNameContainingOrProductNumContaining(String search, Pageable pageable);
 }

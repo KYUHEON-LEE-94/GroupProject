@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>부트스트랩 튜토리얼</title>
+<title>로그인 페이지</title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 <link th:href="@{/css/bootswatch.min.css}" rel="stylesheet">
 <style type="text/css">
@@ -73,7 +73,7 @@ body {
   <div class="container">
     <!-- header -->
     <div class="login-header">
-      <h2 class="form-signin-heading">커뮤니티 로그인</h2>
+      <h2 class="form-signin-heading">관리자 로그인</h2>
     </div>
     <!-- form -->
     <form class="form-signin" th:action="@{/members/login}"  method="post" th:object="${loginForm}">

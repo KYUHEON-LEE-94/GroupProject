@@ -35,9 +35,11 @@ public class AdminController {
 
 
     @GetMapping()
-    public String doGet(Model model){
+    public String doGet(@RequestParam(value = "quantityFrom", required = false, defaultValue = "0") Integer quantityFrom,
+                        @RequestParam(value= "quantityTo", required = false, defaultValue = "50") Integer quantityTo,
+            Model model){
         //재고량 현황을 위한 view 전달
-        List<Product> products = productService.findAllByProductQuantityBetween(0,70);
+        List<Product> products = productService.findAllByProductQuantityBetween(quantityFrom,quantityTo);
         model.addAttribute("products",products);
 
         return "admin/admin";

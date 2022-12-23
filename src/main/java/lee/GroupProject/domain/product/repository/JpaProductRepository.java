@@ -21,6 +21,9 @@ public interface JpaProductRepository extends JpaRepository<Product, String>{
 
 	Page<Product> findAllByTypeNumBetween(Integer From, Integer To, Pageable pageable);
 
+	//관리자페이지에서 사용할 메서드
+	Page<Product> findAllByProductNameContainingOrProductNumContaining(String productName, String productNum, Pageable pageable);
+
 	//재고량이 적은 순으로 정렬
 	List<Product> findAllByProductQuantityBetween(Integer from, Integer to);
 

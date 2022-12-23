@@ -3,7 +3,7 @@
   th:replace="~{admin/layout/templateV1  :: layout(~{::title}, ~{::header}, ~{::nav}, ~{::section})}">
 
 <!-- 타이틀 -->
-<title>:: 커뮤니티 회원 목록 ::</title>
+<title>:: 회원 목록 ::</title>
 
 <!-- 커뮤니티 소개 -->
 <header></header>
@@ -15,7 +15,7 @@
       <div class="col-sm-12 col-lg-12">
         <ol class="breadcrumb">
           <li><a href="/">홈</a></li>
-          <li class="active">커뮤니티 회원목록</li>
+          <li class="active">회원목록</li>
         </ol>
       </div>
     </div>
@@ -26,7 +26,7 @@
 <section class="row">
   <div class="col-lg-12">
     <div class="page-header">
-      <h2 id="container">커뮤니티 회원목록 (총 <span th:text="${totalElements}">0</span> 명)</h2>
+      <h2 id="container">회원목록 (총 <span th:text="${totalElements}">0</span> 명)</h2>
     </div>
     <!-- 검색 -->
     <div>

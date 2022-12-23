@@ -34,6 +34,15 @@
 
 <!-- 컨텐츠 -->
 <section class="container py-5">
+  <form th:action="@{/admin}" method="get">
+    <div class="text-right">
+      <input style="width: 60px" name="quantityFrom" type="number" min="0" th:value="0">개
+      <strong>~</strong>
+      <input style="width: 60px" name="quantityTo" type="number" min="1" th:value="70">개
+      <button class="btn" type="submit">입력</button>
+    </div>
+  </form>
+
     <!--      한칸 시작-->
 
     <div class="col-md-4" style="border:2px solid #bfd1ec; margin: 20px 40px; height: 320px; padding: 0px" th:each="product : ${products}" th:object="${product}">
