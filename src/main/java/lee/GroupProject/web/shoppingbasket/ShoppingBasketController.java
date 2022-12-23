@@ -85,23 +85,7 @@ public class ShoppingBasketController {
                            HttpServletRequest request,
                            Model model){
 
-        Members members = getLoginMember(request);
-        if(members.getMemberId() == null){
-            throw new YzRuntimeException();
-        }
-
-
-        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
-        model.addAttribute("list", list);
-
-
-        List<Product> products = new ArrayList<>();
-        for (ShoppingBasket cart: list) {
-            Product product = productService.findByProductNum(cart.getProductNum());
-            products.add(product);
-        }
-
-        model.addAttribute("products",products);
+        getMappingMethod(request, model);
 
         return "includes/cart";
 
@@ -115,23 +99,7 @@ public class ShoppingBasketController {
                            Model model){
 
 
-        Members members = getLoginMember(request);
-        if(members.getMemberId() == null){
-            throw new YzRuntimeException();
-        }
-
-
-        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
-        model.addAttribute("list", list);
-
-
-            List<Product> products = new ArrayList<>();
-            for (ShoppingBasket cart: list) {
-                Product product = productService.findByProductNum(cart.getProductNum());
-                products.add(product);
-            }
-
-        model.addAttribute("products",products);
+        getMappingMethod(request, model);
 
 
         return "includes/cart";
@@ -184,4 +152,33 @@ public class ShoppingBasketController {
         Members members = (Members) session.getAttribute("loginMember");
         return members;
     }
+
+    public void getMappingMethod(HttpServletRequest request, Model model){
+
+        Members members = getLoginMember(request);
+        if(members.getMemberId() == null){
+            throw new YzRuntimeException();
+        }
+
+        List<ShoppingBasket> list = shoppingBasketService.findAllByMemberIdOrderByShoppingDateDesc(members.getMemberId());
+        log.info("리스트{}", list);
+
+        if(list.size() == 0){
+            model.addAttribute("list", null);
+        }
+
+        if(list.size() != 0){
+            model.addAttribute("list", list);
+
+            List<Product> products = new ArrayList<>();
+            for (ShoppingBasket cart: list) {
+                Product product = productService.findByProductNum(cart.getProductNum());
+                products.add(product);
+            }
+
+            model.addAttribute("products",products);
+        }
+
+    }
+
 }

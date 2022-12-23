@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div id="frame" style="width: 90%; margin: auto">
+    <div id="frame" style="width: 90%; margin: auto" th:if="${list != null}">
         <form method="post" action="/shop/cart" th:each="index : ${#numbers.sequence(0,list.size()-1)}" th:object="${orderDetail}">
             <input type="hidden" name="productNum" th:value="${products[index].productNum}">
             <!--/*상품정보 테이블*/-->
@@ -103,7 +103,9 @@
 
     </div>
 
-
+    <div style="width: 90%; margin: auto" th:if="${list == null}">
+        <h3 class="text-center" style="color:red; padding: 50px">장바구니 목록이 없습니다.</h3>
+    </div>
 
 
 
