@@ -48,8 +48,12 @@ https://www.erdcloud.com/d/HYzHyGEqKBBzjBZM4
 **주문 화면의 유효성 검증**  
 ![valide3](https://user-images.githubusercontent.com/101496219/208396641-fc807889-6e29-42d8-ba72-0749b3895795.png)
 **회원가입 화면의 유효성 검증**  
-
-
+![admin](https://user-images.githubusercontent.com/101496219/209558781-9906e715-da48-4763-9750-8159fc810edb.png)
+**특정 아이디(관리자 권한)으로 로그인한 경우 관리자 페이지로 이동 가능**   
+![product admin](https://user-images.githubusercontent.com/101496219/209558883-07a3dc53-a585-4ed5-8173-b02b4c55765e.png)
+**재고 관리 페이지**  
+![user admin](https://user-images.githubusercontent.com/101496219/209558947-cfd7172c-19e7-462c-96bb-49c801d8fb7f.png)
+**유저 관리 페이지**  
 
 # 🤔개인적으로 프로젝트를 진행하면서 어려운 점
 ### ✔이규헌
