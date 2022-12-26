@@ -4,11 +4,8 @@ package lee.GroupProject.web.basic.controller;
 
 import lee.GroupProject.domain.member.dto.LoginForm;
 import lee.GroupProject.domain.member.entity.Members;
-import lee.GroupProject.domain.member.service.MemberService;
 import lee.GroupProject.domain.member.service.MemberServiceImpl;
-import lee.GroupProject.domain.product.entity.Product;
 import lee.GroupProject.domain.product.service.ProductServiceImpl;
-import lee.GroupProject.domain.shoppingBasket.service.ShoppingBasketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +19,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /*
  * 메인 컨트롤러
@@ -39,7 +35,7 @@ public class MainController {
 	@GetMapping("/")
 	public String main(Model model){
 
-		return "includes/IndexContent";
+		return "index";
 	}
 
 	//로그인 페이지로 이동

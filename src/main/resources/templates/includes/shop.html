@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/index :: layout(~{::title},~{::body})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: layout(~{::title},~{::body})}">
 
 <head>
     <title>LHL Shop - Product Listing Page</title>
@@ -188,7 +188,7 @@
                                     </li>
 
                                     <li th:unless="${productGradeList.containsKey(listpro.productNum)}">
-                                        <p style="color:#b2dba1;" th:text="|평가 없음|"></p>
+                                        <p class="m-0" style="color:#b2dba1;" th:text="|평가 없음|"></p>
                                     </li>
                                 </ul>
                                 <p class="text-center mb-0" th:field="*{productPrice}" th:text="|${listpro.productPrice}원|">$250.00</p>
